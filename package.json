@@ -6,10 +6,12 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "turbo run lint",
     "build:api": "turbo run build --filter=api",
     "build:web": "turbo run build --filter=web",
     "dev:api": "turbo run dev --filter=api",
-    "dev:web": "turbo run dev --filter=web"
+    "dev:web": "turbo run dev --filter=web",
+    "lint:web": "turbo run lint --filter=web"
   },
   "devDependencies": {
     "turbo": "^2.10.8"
