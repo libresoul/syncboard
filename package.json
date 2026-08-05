@@ -23,5 +23,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "volta": {
+    "node": "24.19.0",
+    "npm": "12.0.2"
+  }
 }
