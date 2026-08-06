@@ -15,10 +15,9 @@
       "persistent": true,
       "cache": false
     },
-    "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+    "//#format-and-lint": {},
+    "//#format-and-lint:fix": {
+      "cache": false
     }
   },
   "ui": "tui"

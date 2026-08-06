@@ -6,14 +6,15 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "turbo run lint",
+    "format-and-lint": "biome check --no-errors-on-unmatched",
+    "format-and-lint:fix": "biome check --no-errors-on-unmatched --write",
     "build:api": "turbo run build --filter=api",
     "build:web": "turbo run build --filter=web",
     "dev:api": "turbo run dev --filter=api",
-    "dev:web": "turbo run dev --filter=web",
-    "lint:web": "turbo run lint --filter=web"
+    "dev:web": "turbo run dev --filter=web"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.7",
     "turbo": "^2.10.8"
   },
   "devEngines": {
