@@ -16,7 +16,7 @@
     "rules": {
       "preset": "recommended",
       "a11y": {
-        "useButtonType": "warn"
+        "useButtonType": "off"
       },
       "correctness": {
         "noUnusedImports": {
