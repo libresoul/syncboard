@@ -1,7 +1,4 @@
-import React from 'react'
-
 type TaskCardProps = {
-  id: string
   title: string
   description?: string
   tag?: string
@@ -11,13 +8,12 @@ type TaskCardProps = {
 }
 
 export default function TaskCard({
-  id,
   title,
   description,
   tag,
   accentColor = 'bg-cyan-600',
   meta,
-  done = false,
+  done = false
 }: TaskCardProps) {
   return (
     <article className="relative bg-white border border-gray-200 p-3 rounded-lg shadow-sm group">
@@ -25,15 +21,25 @@ export default function TaskCard({
 
       <div className="flex justify-between items-start mb-2">
         {tag ? (
-          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded uppercase font-semibold">{tag}</span>
+          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded uppercase font-semibold">
+            {tag}
+          </span>
         ) : (
           <div />
         )}
-        <button className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600">⋮</button>
+        <button className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600">
+          ⋮
+        </button>
       </div>
 
-      <h3 className={`font-semibold text-sm ${done ? 'line-through text-gray-400' : ''}`}>{title}</h3>
-      {description && <p className="text-xs text-gray-500 mt-1">{description}</p>}
+      <h3
+        className={`font-semibold text-sm ${done ? 'line-through text-gray-400' : ''}`}
+      >
+        {title}
+      </h3>
+      {description && (
+        <p className="text-xs text-gray-500 mt-1">{description}</p>
+      )}
 
       <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
         <div className="flex items-center gap-3">
