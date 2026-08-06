@@ -1,15 +1,5 @@
+import type { Task } from '../types/task'
 import TaskCard from './TaskCard'
-
-type Task = {
-  id: string
-  title: string
-  description?: string
-  tag?: string
-  comments?: number
-  attachments?: number
-  assignee?: string
-  done?: boolean
-}
 
 type ColumnProps = {
   title: string
