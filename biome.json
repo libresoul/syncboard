@@ -17,6 +17,12 @@
       "preset": "recommended",
       "a11y": {
         "useButtonType": "warn"
+      },
+      "correctness": {
+        "noUnusedImports": {
+          "level": "error",
+          "fix": "safe"
+        }
       }
     }
   },
