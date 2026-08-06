@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "check-types": "turbo run check-types",
     "dev": "turbo run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format-and-lint": "biome check --no-errors-on-unmatched",
