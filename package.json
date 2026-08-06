@@ -6,12 +6,16 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "format-and-lint": "biome check --no-errors-on-unmatched",
+    "format-and-lint:fix": "biome check --no-errors-on-unmatched --write",
     "build:api": "turbo run build --filter=api",
     "build:web": "turbo run build --filter=web",
     "dev:api": "turbo run dev --filter=api",
     "dev:web": "turbo run dev --filter=web"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.7",
+    "lefthook": "^2.1.10",
     "turbo": "^2.10.8"
   },
   "devEngines": {
@@ -27,5 +31,9 @@
   "volta": {
     "node": "24.19.0",
     "npm": "12.0.2"
+  },
+  "allowScripts": {
+    "lefthook@2.1.10": true,
+    "esbuild@0.28.1": true
   }
 }
