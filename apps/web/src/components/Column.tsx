@@ -5,12 +5,14 @@ type ColumnProps = {
   title: string
   tasks: Task[]
   showCreate?: boolean
+  onTaskMenuClick?: (task: Task) => void
 }
 
 export default function Column({
   title,
   tasks,
-  showCreate = false
+  showCreate = false,
+  onTaskMenuClick
 }: ColumnProps) {
   return (
     <section className="w-[320px] shrink-0 bg-white rounded-xl border border-gray-200 flex flex-col max-h-full">
@@ -50,6 +52,9 @@ export default function Column({
                 assigneeInitials: t.assignee
               }}
               done={t.done}
+              onMenuClick={
+                onTaskMenuClick ? () => onTaskMenuClick(t) : undefined
+              }
             />
           ))}
         </div>
