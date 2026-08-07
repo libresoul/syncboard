@@ -5,6 +5,7 @@ type TaskCardProps = {
   accentColor?: string
   meta?: { comments?: number; attachments?: number; assigneeInitials?: string }
   done?: boolean
+  onMenuClick?: () => void
 }
 
 export default function TaskCard({
@@ -13,7 +14,8 @@ export default function TaskCard({
   tag,
   accentColor = 'bg-cyan-600',
   meta,
-  done = false
+  done = false,
+  onMenuClick
 }: TaskCardProps) {
   return (
     <article className="relative bg-white border border-gray-200 p-3 rounded-lg shadow-sm group">
@@ -27,7 +29,12 @@ export default function TaskCard({
         ) : (
           <div />
         )}
-        <button className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600">
+        <button
+          type="button"
+          className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600"
+          onClick={onMenuClick}
+          aria-label={`Edit ${title}`}
+        >
           ⋮
         </button>
       </div>
