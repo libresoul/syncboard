@@ -3,6 +3,7 @@ import mockData from '../data/mockTasks'
 import type { Task } from '../types/task'
 import Column from './Column'
 import CreateTaskModal from './CreateTaskModal'
+import DeleteConfirmationModal from './DeleteConfirmationModal'
 
 type BoardState = {
   todo: Task[]
@@ -29,6 +30,7 @@ export default function TaskBoard() {
     assignee: string
     status: ColumnKey
   } | null>(null)
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null)
 
   useEffect(() => {
     setForm(
@@ -104,6 +106,16 @@ export default function TaskBoard() {
     setEditingTask(null)
     setForm(null)
   }
+
+  const handleDeleteTask = (taskId: string) => {
+    setBoard((currentBoard) => ({
+      ...currentBoard,
+      todo: currentBoard.todo.filter((task) => task.id != taskId),
+      inprogress: currentBoard.inprogress.filter((task) => task.id != taskId),
+      done: currentBoard.done.filter((task) => task.id != taskId)
+    }))
+    setTaskToDelete(null)
+  }
   const [isCreateOpen, setIsCreateOpen] = useState(false)
 
   return (
@@ -115,16 +127,19 @@ export default function TaskBoard() {
           showCreate
           onCreate={() => setIsCreateOpen(true)}
           onEditTaskClick={(task) => openEditTask('todo', task)}
+          onDeleteTask={(task) => setTaskToDelete(task)}
         />
         <Column
           title="In Progress"
           tasks={board.inprogress}
           onEditTaskClick={(task) => openEditTask('inprogress', task)}
+          onDeleteTask={(task) => setTaskToDelete(task)}
         />
         <Column
           title="Done"
           tasks={board.done}
           onEditTaskClick={(task) => openEditTask('done', task)}
+          onDeleteTask={(task) => setTaskToDelete(task)}
         />
       </div>
 
@@ -238,6 +253,13 @@ export default function TaskBoard() {
         onCreate={createTask}
         onClose={() => setIsCreateOpen(false)}
       />
+      {taskToDelete && (
+        <DeleteConfirmationModal
+          taskTitle={taskToDelete.title}
+          onConfirm={() => handleDeleteTask(taskToDelete.id)}
+          onCancel={() => setTaskToDelete(null)}
+        />
+      )}
     </>
   )
 }

@@ -7,7 +7,7 @@ type TaskCardProps = {
   meta?: { comments?: number; attachments?: number; assigneeInitials?: string }
   done?: boolean
   onEditTask: (task: Task) => void
-  onDelete?: () => void
+  onDelete: () => void
 }
 
 export default function TaskCard({
@@ -21,6 +21,11 @@ export default function TaskCard({
   const [showMenu, setShowMenu] = useState(false)
   const handleEditTask = () => {
     onEditTask(task)
+    setShowMenu(false)
+  }
+
+  const handleDeleteTask = () => {
+    onDelete()
     setShowMenu(false)
   }
 
@@ -55,7 +60,7 @@ export default function TaskCard({
 
               <button
                 className="w-full text-left px-3 py-2 hover:bg-gray-100 text-red-600"
-                onClick={() => onDelete}
+                onClick={handleDeleteTask}
               >
                 Delete
               </button>
