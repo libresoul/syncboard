@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import mockData from '../data/mockTasks'
 import type { Task } from '../types/task'
 import Column from './Column'
+import CreateTaskModal from './CreateTaskModal'
 
 type BoardState = {
   todo: Task[]
@@ -78,6 +79,7 @@ export default function TaskBoard() {
     setEditingTask(null)
     setForm(null)
   }
+  const [isCreateOpen, setIsCreateOpen] = useState(false)
 
   return (
     <>
@@ -204,6 +206,22 @@ export default function TaskBoard() {
           </div>
         </div>
       ) : null}
+
+      <Column
+        title="To Do"
+        tasks={mockData.todo}
+        showCreate
+        onCreate={() => setIsCreateOpen(true)}
+      />
+
+      <Column title="In Progress" tasks={mockData.inprogress} />
+
+      <Column title="Done" tasks={mockData.done} />
+
+      <CreateTaskModal
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+      />
     </>
   )
 }

@@ -6,13 +6,15 @@ type ColumnProps = {
   tasks: Task[]
   showCreate?: boolean
   onTaskMenuClick?: (task: Task) => void
+  onCreate?: () => void
 }
 
 export default function Column({
   title,
   tasks,
   showCreate = false,
-  onTaskMenuClick
+  onTaskMenuClick,
+  onCreate
 }: ColumnProps) {
   return (
     <section className="w-[320px] shrink-0 bg-white rounded-xl border border-gray-200 flex flex-col max-h-full">
@@ -30,7 +32,7 @@ export default function Column({
       <div className="p-3 flex-1 overflow-y-auto flex flex-col gap-3">
         {showCreate && (
           <button
-            onClick={() => console.log('Create task clicked in', title)}
+            onClick={onCreate}
             className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 mb-1"
           >
             <span className="text-sm">＋</span>
