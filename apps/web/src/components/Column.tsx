@@ -7,6 +7,7 @@ type ColumnProps = {
   showCreate?: boolean
   onEditTaskClick: (task: Task) => void
   onCreate?: () => void
+  onDeleteTask?: (task: Task) => void
 }
 
 export default function Column({
@@ -14,7 +15,8 @@ export default function Column({
   tasks,
   showCreate = false,
   onCreate,
-  onEditTaskClick
+  onEditTaskClick,
+  onDeleteTask
 }: ColumnProps) {
   return (
     <section className="w-[320px] shrink-0 bg-white rounded-xl border border-gray-200 flex flex-col max-h-full">
@@ -53,6 +55,7 @@ export default function Column({
               }}
               done={t.done}
               onEditTask={onEditTaskClick}
+              onDelete={onDeleteTask ? () => onDeleteTask(t) : undefined}
             />
           ))}
         </div>
