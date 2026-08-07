@@ -14,6 +14,8 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
+    "incremental": true,
+    "tsBuildInfoFile": ".turbo/tsconfig.api.tsbuildinfo",
     "skipLibCheck": true
   },
     "include": ["src/**/*"]

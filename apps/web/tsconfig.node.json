@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "target": "es2023",
     "lib": ["ES2023"],
     "types": ["node"],
+    "incremental": true,
+    "tsBuildInfoFile": ".turbo/tsconfig.node.tsbuildinfo",
     "skipLibCheck": true,
 
     /* Bundler mode */
