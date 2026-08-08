@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import mockData from '../data/mockTasks'
 import type { Task } from '../types/task'
 import Column from './Column'
+import CreateTaskModal from './CreateTaskModal'
 
 type BoardState = {
   todo: Task[]
@@ -45,6 +46,31 @@ export default function TaskBoard() {
     setEditingTask({ column, task })
   }
 
+  const createTask = (formData: FormData) => {
+    const title = formData.get('title')
+    const description = formData.get('description')
+    const assignee = formData.get('assignee')
+
+    if (!title || !description || !assignee) {
+      return
+    }
+    const newTask = {
+      id: Date.now().toString(),
+      title: title.toString(),
+      description: description.toString(),
+      assignee: assignee.toString(),
+      comments: 0
+    }
+
+    setBoard((currentBoard) => {
+      const nextBoard: BoardState = {
+        ...currentBoard,
+        todo: [...currentBoard.todo, newTask]
+      }
+      return nextBoard
+    })
+  }
+
   const saveTask = () => {
     if (!editingTask || !form) {
       return
@@ -78,6 +104,7 @@ export default function TaskBoard() {
     setEditingTask(null)
     setForm(null)
   }
+  const [isCreateOpen, setIsCreateOpen] = useState(false)
 
   return (
     <>
@@ -86,6 +113,7 @@ export default function TaskBoard() {
           title="To Do"
           tasks={board.todo}
           showCreate
+          onCreate={() => setIsCreateOpen(true)}
           onTaskMenuClick={(task) => openEditTask('todo', task)}
         />
         <Column
@@ -204,6 +232,12 @@ export default function TaskBoard() {
           </div>
         </div>
       ) : null}
+
+      <CreateTaskModal
+        isOpen={isCreateOpen}
+        onCreate={createTask}
+        onClose={() => setIsCreateOpen(false)}
+      />
     </>
   )
 }
