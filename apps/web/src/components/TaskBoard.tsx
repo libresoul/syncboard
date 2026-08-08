@@ -207,17 +207,6 @@ export default function TaskBoard() {
         </div>
       ) : null}
 
-      <Column
-        title="To Do"
-        tasks={mockData.todo}
-        showCreate
-        onCreate={() => setIsCreateOpen(true)}
-      />
-
-      <Column title="In Progress" tasks={mockData.inprogress} />
-
-      <Column title="Done" tasks={mockData.done} />
-
       <CreateTaskModal
         isOpen={isCreateOpen}
         onClose={() => setIsCreateOpen(false)}
