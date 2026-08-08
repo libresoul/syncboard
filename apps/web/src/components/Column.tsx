@@ -13,7 +13,6 @@ export default function Column({
   title,
   tasks,
   showCreate = false,
-  onTaskMenuClick,
   onCreate
 }: ColumnProps) {
   return (
@@ -54,9 +53,6 @@ export default function Column({
                 assigneeInitials: t.assignee
               }}
               done={t.done}
-              onMenuClick={
-                onTaskMenuClick ? () => onTaskMenuClick(t) : undefined
-              }
             />
           ))}
         </div>

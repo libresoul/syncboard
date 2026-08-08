@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 type TaskCardProps = {
   title: string
   description?: string
@@ -6,7 +8,6 @@ type TaskCardProps = {
   meta?: { comments?: number; attachments?: number; assigneeInitials?: string }
   done?: boolean
 }
-import { useState } from 'react'
 
 export default function TaskCard({
   title,
