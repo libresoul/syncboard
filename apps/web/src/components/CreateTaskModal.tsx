@@ -1,45 +1,31 @@
 import { X } from 'lucide-react'
-import { useState } from 'react'
+import mockData from '../data/mockTasks'
 
 const ASSIGNEES = [
-  'Unassigned',
-  'Alex Chen',
-  'Priya Nair',
-  'Marcus Lee',
-  'Sofia Ruiz',
-  'Jordan Blake'
+  ...new Set(
+    Object.values(mockData)
+      .flat()
+      .flatMap((task) => (task.assignee ? [task.assignee] : []))
+  )
 ]
 
 type CreateTaskModalProps = {
   isOpen: boolean
+  onCreate: (data: FormData) => void
   onClose: () => void
 }
 
 export default function CreateTaskModal({
   isOpen,
+  onCreate,
   onClose
 }: CreateTaskModalProps) {
-  const [task, setTask] = useState('')
-  const [assignee, setAssignee] = useState(ASSIGNEES[0])
-  const [dueDate, setDueDate] = useState('')
-
-  const resetForm = () => {
-    setTask('')
-    setAssignee(ASSIGNEES[0])
-    setDueDate('')
-  }
-
   const handleClose = () => {
     onClose()
-    resetForm()
   }
 
-  const handleCreate = () => {
-    console.log('New task created:', {
-      task,
-      assignee,
-      dueDate
-    })
+  const handleCreate = (formData: FormData) => {
+    onCreate(formData)
     handleClose()
   }
 
@@ -86,78 +72,97 @@ export default function CreateTaskModal({
           </button>
         </div>
 
-        <div className="space-y-4">
-          <div>
-            <label
-              htmlFor="task-desc"
-              className="block text-xs font-medium text-neutral-500 mb-1.5"
-            >
-              Task
-            </label>
-            <textarea
-              id="task-desc"
-              value={task}
-              onChange={(e) => setTask(e.target.value)}
-              placeholder="Describe the task"
-              rows={3}
-              className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 resize-none"
-            />
-          </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreate(new FormData(e.currentTarget))
+          }}
+        >
+          <div className="space-y-4">
+            <div>
+              <label
+                htmlFor="title"
+                className="block text-xs font-medium text-neutral-500 mb-1.5"
+              >
+                Title
+              </label>
+              <input
+                id="title"
+                name="title"
+                placeholder="Create a new issue"
+                className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 resize-none"
+              />
+            </div>
 
-          <div>
-            <label
-              htmlFor="assignee"
-              className="block text-xs font-medium text-neutral-500 mb-1.5"
-            >
-              Assigned to
-            </label>
-            <select
-              id="assignee"
-              value={assignee}
-              onChange={(e) => setAssignee(e.target.value)}
-              className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 bg-white"
-            >
-              {ASSIGNEES.map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="space-y-4">
+              <div>
+                <label
+                  htmlFor="description"
+                  className="block text-xs font-medium text-neutral-500 mb-1.5"
+                >
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  placeholder="Describe the task"
+                  rows={3}
+                  className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 resize-none"
+                />
+              </div>
 
-          <div>
-            <label
-              htmlFor="due-date"
-              className="block text-xs font-medium text-neutral-500 mb-1.5"
-            >
-              Due date
-            </label>
-            <input
-              id="due-date"
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400"
-            />
-          </div>
-        </div>
+              <div>
+                <label
+                  htmlFor="assignee"
+                  className="block text-xs font-medium text-neutral-500 mb-1.5"
+                >
+                  Assigned to
+                </label>
+                <select
+                  id="assignee"
+                  name="assignee"
+                  className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 bg-white"
+                >
+                  {ASSIGNEES.map((name) => (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-        <div className="flex justify-end gap-2 mt-6">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="px-3.5 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleCreate}
-            className="px-3.5 py-2 text-sm font-medium bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors"
-          >
-            Create
-          </button>
-        </div>
+              <div>
+                <label
+                  htmlFor="due-date"
+                  className="block text-xs font-medium text-neutral-500 mb-1.5"
+                >
+                  Due date
+                </label>
+                <input
+                  id="due-date"
+                  type="date"
+                  className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="px-3.5 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-3.5 py-2 text-sm font-medium bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors"
+              >
+                Create
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   )
