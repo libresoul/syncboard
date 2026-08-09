@@ -110,9 +110,9 @@ export default function TaskBoard() {
   const handleDeleteTask = (taskId: string) => {
     setBoard((currentBoard) => ({
       ...currentBoard,
-      todo: currentBoard.todo.filter((task) => task.id != taskId),
-      inprogress: currentBoard.inprogress.filter((task) => task.id != taskId),
-      done: currentBoard.done.filter((task) => task.id != taskId)
+      todo: currentBoard.todo.filter((task) => task.id !== taskId),
+      inprogress: currentBoard.inprogress.filter((task) => task.id !== taskId),
+      done: currentBoard.done.filter((task) => task.id !== taskId)
     }))
     setTaskToDelete(null)
   }
