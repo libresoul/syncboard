@@ -1,31 +1,35 @@
 import { useState } from 'react'
+import type { Task } from '../types/task'
 
 type TaskCardProps = {
-  title: string
-  description?: string
-  tag?: string
+  task: Task
   accentColor?: string
   meta?: { comments?: number; attachments?: number; assigneeInitials?: string }
   done?: boolean
+  onEditTask: (task: Task) => void
 }
 
 export default function TaskCard({
-  title,
-  description,
-  tag,
+  task,
   accentColor = 'bg-cyan-600',
   meta,
-  done = false
+  done = false,
+  onEditTask
 }: TaskCardProps) {
   const [showMenu, setShowMenu] = useState(false)
+  const handleEditTask = () => {
+    onEditTask(task)
+    setShowMenu(false)
+  }
+
   return (
     <article className="relative bg-white border border-gray-200 p-3 rounded-lg shadow-sm group">
       <div className={`absolute top-0 left-0 h-0.5 w-full ${accentColor}`} />
 
       <div className="flex justify-between items-start mb-2">
-        {tag ? (
+        {task.tag ? (
           <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded uppercase font-semibold">
-            {tag}
+            {task.tag}
           </span>
         ) : (
           <div />
@@ -42,7 +46,7 @@ export default function TaskCard({
             <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
               <button
                 className="w-full text-left px-3 py-2 hover:bg-gray-100"
-                onClick={() => console.log('Edit clicked')}
+                onClick={() => handleEditTask()}
               >
                 Edit
               </button>
@@ -68,10 +72,10 @@ export default function TaskCard({
       <h3
         className={`font-semibold text-sm ${done ? 'line-through text-gray-400' : ''}`}
       >
-        {title}
+        {task.title}
       </h3>
-      {description && (
-        <p className="text-xs text-gray-500 mt-1">{description}</p>
+      {task.description && (
+        <p className="text-xs text-gray-500 mt-1">{task.description}</p>
       )}
 
       <div className="flex items-center justify-between mt-3 text-xs text-gray-500">

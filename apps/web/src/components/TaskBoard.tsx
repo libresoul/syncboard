@@ -114,17 +114,17 @@ export default function TaskBoard() {
           tasks={board.todo}
           showCreate
           onCreate={() => setIsCreateOpen(true)}
-          onTaskMenuClick={(task) => openEditTask('todo', task)}
+          onEditTaskClick={(task) => openEditTask('todo', task)}
         />
         <Column
           title="In Progress"
           tasks={board.inprogress}
-          onTaskMenuClick={(task) => openEditTask('inprogress', task)}
+          onEditTaskClick={(task) => openEditTask('inprogress', task)}
         />
         <Column
           title="Done"
           tasks={board.done}
-          onTaskMenuClick={(task) => openEditTask('done', task)}
+          onEditTaskClick={(task) => openEditTask('done', task)}
         />
       </div>
 
