@@ -11,7 +11,7 @@ export default function Sidebar() {
   return (
     <aside
       className={`flex w-full flex-col overflow-hidden border-b border-slate-800/70 bg-slate-950/95 px-3 py-4 transition-all duration-300 lg:min-h-screen lg:border-b-0 lg:border-r lg:px-3 ${
-        isExpanded ? 'lg:w-[260px]' : 'lg:w-[76px]'
+        isExpanded ? 'lg:w-65' : 'lg:w-19'
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -67,31 +67,6 @@ export default function Sidebar() {
             ))}
           </div>
         </div>
-
-        <div className="rounded-3xl border border-slate-800/80 bg-slate-900/50 p-4">
-          <p className="text-[11px] uppercase tracking-[0.35em] text-slate-400">
-            Placeholders
-          </p>
-          <div className="mt-3 space-y-2">
-            {['Quick action', 'Filters', 'Reports'].map((item) => (
-              <div
-                key={item}
-                className="rounded-2xl border border-dashed border-slate-700/80 bg-slate-950/50 px-3 py-2.5 text-sm text-slate-400"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-auto rounded-3xl border border-slate-800/80 bg-gradient-to-br from-cyan-400/10 via-slate-900 to-slate-950 p-4">
-          <p className="text-[11px] uppercase tracking-[0.35em] text-cyan-300/80">
-            Future area
-          </p>
-          <p className="mt-2 text-sm leading-6 text-slate-300">
-            Reserved for more sidebar options later.
-          </p>
-        </div>
       </div>
 
       {!isExpanded && (
@@ -109,10 +84,6 @@ export default function Sidebar() {
                 {item.slice(0, 1)}
               </div>
             ))}
-          </div>
-
-          <div className="flex flex-1 items-end justify-center pb-1">
-            <span className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
           </div>
         </div>
       )}
