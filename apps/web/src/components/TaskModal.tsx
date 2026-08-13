@@ -1,54 +1,56 @@
 import { X } from 'lucide-react'
-import mockData from '../data/mockTasks'
+import type { Task } from '../types/task'
 
-const ASSIGNEES = [
-  ...new Set(
-    Object.values(mockData)
-      .flat()
-      .flatMap((task) => (task.assignee ? [task.assignee] : []))
-  )
+const STATUS_OPTIONS: Array<{ value: Task['status']; label: string }> = [
+  { value: 'todo', label: 'To Do' },
+  { value: 'inprogress', label: 'In Progress' },
+  { value: 'done', label: 'Done' }
 ]
 
-type CreateTaskModalProps = {
+type TaskModalProps = {
   isOpen: boolean
-  onCreate: (data: FormData) => void
+  mode: 'create' | 'edit'
+  task?: Task | null
+  assignees: string[]
+  onSubmit: (data: FormData) => void
   onClose: () => void
 }
 
-export default function CreateTaskModal({
+export default function TaskModal({
   isOpen,
-  onCreate,
+  mode,
+  task,
+  assignees,
+  onSubmit,
   onClose
-}: CreateTaskModalProps) {
-  const handleClose = () => {
-    onClose()
-  }
+}: TaskModalProps) {
+  const isEditMode = mode === 'edit'
+  const assigneeOptions = Array.from(
+    new Set([...assignees, ...(task?.assignee ? [task.assignee] : [])])
+  )
 
-  const handleCreate = (formData: FormData) => {
-    onCreate(formData)
-    handleClose()
+  if (!isOpen) {
+    return null
   }
-
-  if (!isOpen) return null
 
   return (
     <div
       className="fixed inset-0 flex items-center justify-center z-50 p-4"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="create-task-title"
+      aria-labelledby="task-modal-title"
       tabIndex={-1}
-      onKeyDown={(e) => {
-        if (e.key === 'Escape') {
-          e.stopPropagation()
-          handleClose()
+      onKeyDown={(event) => {
+        if (event.key === 'Escape') {
+          event.stopPropagation()
+          onClose()
         }
       }}
     >
       <button
         type="button"
         className="absolute inset-0 bg-black/40"
-        onClick={handleClose}
+        onClick={onClose}
         aria-label="Close task modal"
       />
       <div
@@ -57,14 +59,14 @@ export default function CreateTaskModal({
       >
         <div className="flex items-center justify-between mb-5">
           <h2
-            id="create-task-title"
+            id="task-modal-title"
             className="text-base font-medium text-neutral-900"
           >
-            New task
+            {isEditMode ? 'Edit task' : 'New task'}
           </h2>
           <button
             type="button"
-            onClick={handleClose}
+            onClick={onClose}
             aria-label="Close"
             className="text-neutral-400 hover:text-neutral-700 transition-colors"
           >
@@ -73,9 +75,9 @@ export default function CreateTaskModal({
         </div>
 
         <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleCreate(new FormData(e.currentTarget))
+          onSubmit={(event) => {
+            event.preventDefault()
+            onSubmit(new FormData(event.currentTarget))
           }}
         >
           <div className="space-y-4">
@@ -89,12 +91,13 @@ export default function CreateTaskModal({
               <input
                 id="title"
                 name="title"
+                defaultValue={task?.title}
                 placeholder="Create a new issue"
                 className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 resize-none"
               />
             </div>
 
-            <div className="space-y-4">
+            {!isEditMode && (
               <div>
                 <label
                   htmlFor="description"
@@ -105,32 +108,37 @@ export default function CreateTaskModal({
                 <textarea
                   id="description"
                   name="description"
+                  defaultValue={task?.description}
                   placeholder="Describe the task"
                   rows={3}
                   className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 resize-none"
                 />
               </div>
+            )}
 
-              <div>
-                <label
-                  htmlFor="assignee"
-                  className="block text-xs font-medium text-neutral-500 mb-1.5"
-                >
-                  Assigned to
-                </label>
-                <select
-                  id="assignee"
-                  name="assignee"
-                  className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 bg-white"
-                >
-                  {ASSIGNEES.map((name) => (
-                    <option key={name} value={name}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div>
+              <label
+                htmlFor="assignee"
+                className="block text-xs font-medium text-neutral-500 mb-1.5"
+              >
+                Assigned to
+              </label>
+              <select
+                id="assignee"
+                name="assignee"
+                defaultValue={task?.assignee ?? assigneeOptions[0] ?? ''}
+                className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 bg-white"
+              >
+                <option value="">Select assignee</option>
+                {assigneeOptions.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
+            {!isEditMode && (
               <div>
                 <label
                   htmlFor="due-date"
@@ -144,12 +152,35 @@ export default function CreateTaskModal({
                   className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400"
                 />
               </div>
-            </div>
+            )}
+
+            {isEditMode && (
+              <div>
+                <label
+                  htmlFor="status"
+                  className="block text-xs font-medium text-neutral-500 mb-1.5"
+                >
+                  Status
+                </label>
+                <select
+                  id="status"
+                  name="status"
+                  defaultValue={task?.status}
+                  className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 focus:border-neutral-400 bg-white"
+                >
+                  {STATUS_OPTIONS.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div className="flex justify-end gap-2 mt-6">
               <button
                 type="button"
-                onClick={handleClose}
+                onClick={onClose}
                 className="px-3.5 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
               >
                 Cancel
@@ -158,7 +189,7 @@ export default function CreateTaskModal({
                 type="submit"
                 className="px-3.5 py-2 text-sm font-medium bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors"
               >
-                Create
+                {isEditMode ? 'Save changes' : 'Create'}
               </button>
             </div>
           </div>

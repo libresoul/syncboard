@@ -1,30 +1,25 @@
-import type { Task } from '../types/task'
-import TaskCard from './TaskCard'
+import type { ReactNode } from 'react'
 
 type ColumnProps = {
   title: string
-  tasks: Task[]
   showCreate?: boolean
-  onEditTaskClick: (task: Task) => void
   onCreate?: () => void
-  onDeleteTask: (task: Task) => void
+  children: ReactNode[]
 }
 
 export default function Column({
   title,
-  tasks,
   showCreate = false,
   onCreate,
-  onEditTaskClick,
-  onDeleteTask
+  children
 }: ColumnProps) {
   return (
     <section className="w-[320px] shrink-0 bg-white rounded-xl border border-gray-200 flex flex-col max-h-full">
       <div className="p-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10 rounded-t-lg">
-        <h3 className="font-semibold text-lg flex items-center gap-2">
+        <h3 className="font-semibold text-lg text-gray-900 flex items-center gap-2">
           {title}
           <span className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs font-mono">
-            {tasks.length}
+            {children.length}
           </span>
         </h3>
 
@@ -42,23 +37,7 @@ export default function Column({
           </button>
         )}
 
-        <div className="space-y-3">
-          {tasks.map((t) => (
-            <TaskCard
-              key={t.id}
-              task={t}
-              accentColor={t.done ? 'bg-gray-500' : 'bg-cyan-600'}
-              meta={{
-                comments: t.comments,
-                attachments: t.attachments,
-                assigneeInitials: t.assignee
-              }}
-              done={t.done}
-              onEditTask={onEditTaskClick}
-              onDelete={() => onDeleteTask(t)}
-            />
-          ))}
-        </div>
+        <div className="space-y-3">{children}</div>
       </div>
     </section>
   )

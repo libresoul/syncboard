@@ -9,7 +9,6 @@ function App() {
 
         <section className="flex min-w-0 flex-1 flex-col border-t border-slate-800/70 lg:border-l lg:border-t-0">
           <header className="flex items-center gap-3 border-b border-slate-800/70 px-6 py-5">
-            <div className="h-3 w-3 rounded-full bg-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.8)]" />
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
                 Workspace
