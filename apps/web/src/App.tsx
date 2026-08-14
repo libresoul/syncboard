@@ -1,7 +1,7 @@
 import { Moon, Sun } from 'lucide-react'
 import Sidebar from './components/Sidebar'
 import TaskBoard from './components/TaskBoard'
-import { useTheme } from './context/ThemeContext'
+import { useTheme } from './hooks/useTheme'
 
 function App() {
   const { isDark, toggleTheme } = useTheme()
