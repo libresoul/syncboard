@@ -26,12 +26,12 @@ export default function TaskCard({
   }
 
   return (
-    <article className="relative bg-white border border-gray-200 p-3 rounded-lg shadow-sm group">
+    <article className="relative rounded-lg border border-gray-200 bg-white p-3 shadow-sm group dark:border-slate-700 dark:bg-slate-900">
       <div className={`absolute top-0 left-0 h-0.5 w-full ${accentColor}`} />
 
-      <div className="flex justify-between items-start mb-2">
+      <div className="mb-2 flex items-start justify-between">
         {task.tag ? (
-          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded uppercase font-semibold">
+          <span className="rounded bg-gray-100 px-2 py-0.5 text-xs font-semibold uppercase text-gray-600 dark:bg-slate-800 dark:text-slate-300">
             {task.tag}
           </span>
         ) : (
@@ -40,29 +40,29 @@ export default function TaskCard({
         <div className="relative">
           <button
             onClick={() => setShowMenu(!showMenu)}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-slate-200"
           >
             ⋮
           </button>
 
           {showMenu && (
-            <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
+            <div className="absolute right-0 z-20 mt-2 w-32 rounded-lg border border-gray-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900">
               <button
-                className="w-full text-left text-gray-900 px-3 py-2 hover:bg-gray-100"
+                className="w-full px-3 py-2 text-left text-gray-900 hover:bg-gray-100 dark:text-slate-100 dark:hover:bg-slate-800"
                 onClick={() => handleEditTask()}
               >
                 Edit
               </button>
 
               <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 text-red-600"
+                className="w-full px-3 py-2 text-left text-red-600 hover:bg-gray-100 dark:hover:bg-slate-800"
                 onClick={handleDeleteTask}
               >
                 Delete
               </button>
 
               <button
-                className="w-full text-left text-gray-900 px-3 py-2 hover:bg-gray-100"
+                className="w-full px-3 py-2 text-left text-gray-900 hover:bg-gray-100 dark:text-slate-100 dark:hover:bg-slate-800"
                 onClick={() => setShowMenu(false)}
               >
                 Close
@@ -73,15 +73,17 @@ export default function TaskCard({
       </div>
 
       <h3
-        className={`font-semibold text-sm ${task.status === 'done' ? 'line-through text-gray-400' : 'text-gray-900'}`}
+        className={`font-semibold text-sm ${task.status === 'done' ? 'line-through text-gray-400 dark:text-slate-500' : 'text-gray-900 dark:text-slate-100'}`}
       >
         {task.title}
       </h3>
       {task.description && (
-        <p className="text-xs text-gray-500 mt-1">{task.description}</p>
+        <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
+          {task.description}
+        </p>
       )}
 
-      <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
+      <div className="mt-3 flex items-center justify-between text-xs text-gray-500 dark:text-slate-400">
         <div className="flex items-center gap-3">
           {task.comments !== undefined && (
             <span className="flex items-center gap-1">
@@ -97,7 +99,7 @@ export default function TaskCard({
 
         <div className="flex items-center gap-2">
           {task.assignee ? (
-            <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-[10px] font-semibold">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-[10px] font-semibold text-gray-700 dark:bg-slate-700 dark:text-slate-200">
               {task.assignee}
             </div>
           ) : null}
