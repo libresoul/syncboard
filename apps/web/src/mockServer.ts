@@ -1,6 +1,5 @@
 import { createServer, Model } from 'miragejs'
-import type { AnyFactories, Registry } from 'miragejs/-types'
-import type Schema from 'miragejs/orm/schema'
+import type { AnyFactories } from 'miragejs/-types'
 import mockData from './data/mockTasks'
 import type { Task as TaskShape } from './types/task'
 
@@ -12,9 +11,6 @@ const models = {
   task: Model.extend<TaskShape>({} as TaskShape)
 }
 
-type AppRegistry = Registry<typeof models, AnyFactories>
-type AppSchema = Schema<AppRegistry>
-
 export function makeServer({ environment = 'development' }: Environment) {
   const server = createServer<typeof models, AnyFactories>({
     environment,
@@ -24,9 +20,10 @@ export function makeServer({ environment = 'development' }: Environment) {
       this.namespace = 'api'
       this.urlPrefix = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
-      this.get('/tasks', (schema: AppSchema) => {
-        return schema.all('task')
-      })
+      this.get('/tasks')
+      this.post('/tasks')
+      this.put('/tasks/:id')
+      this.delete('/tasks/:id')
     },
 
     seeds(server) {
