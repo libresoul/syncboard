@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { X } from 'lucide-react'
+import { LuX } from 'react-icons/lu'
 import { apiClient } from '../lib/api-client'
 import type { Task } from '../types/task'
 
@@ -146,7 +146,7 @@ export default function TaskModal({
             aria-label="Close"
             className="text-neutral-400 transition-colors hover:text-neutral-700 dark:text-slate-400 dark:hover:text-slate-200"
           >
-            <X size={18} />
+            <LuX size={18} />
           </button>
         </div>
 

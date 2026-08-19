@@ -1,4 +1,4 @@
-import { Moon, Sun } from 'lucide-react'
+import { LuMoon, LuSun } from 'react-icons/lu'
 import Sidebar from './components/Sidebar'
 import TaskBoard from './components/TaskBoard'
 import { useTheme } from './hooks/useTheme'
@@ -30,9 +30,9 @@ function App() {
               className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-300 bg-slate-100 text-slate-700 transition-all duration-300 hover:border-cyan-400/40 hover:bg-cyan-400/10 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
             >
               {isDark ? (
-                <Sun className="h-5 w-5 text-amber-400" />
+                <LuSun className="h-5 w-5 text-amber-400" />
               ) : (
-                <Moon className="h-5 w-5 text-slate-700 dark:text-slate-200" />
+                <LuMoon className="h-5 w-5 text-slate-700 dark:text-slate-200" />
               )}
             </button>
           </header>
