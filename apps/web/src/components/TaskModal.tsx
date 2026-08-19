@@ -1,4 +1,6 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { X } from 'lucide-react'
+import { apiClient } from '../lib/api-client'
 import type { Task } from '../types/task'
 
 const STATUS_OPTIONS: Array<{ value: Task['status']; label: string }> = [
@@ -12,7 +14,6 @@ type TaskModalProps = {
   mode: 'create' | 'edit'
   task?: Task | null
   assignees: string[]
-  onSubmit: (data: FormData) => void
   onClose: () => void
 }
 
@@ -21,13 +22,88 @@ export default function TaskModal({
   mode,
   task,
   assignees,
-  onSubmit,
   onClose
 }: TaskModalProps) {
+  const queryClient = useQueryClient()
   const isEditMode = mode === 'edit'
   const assigneeOptions = Array.from(
     new Set([...assignees, ...(task?.assignee ? [task.assignee] : [])])
   )
+
+  // biome-ignore lint/suspicious/noExplicitAny: Needed for asserting task status type
+  function isValidStatus(value: any): value is Task['status'] {
+    const validStatuses = STATUS_OPTIONS.map((opt) => opt.value)
+    return validStatuses.includes(value)
+  }
+
+  const createMutation = useMutation({
+    mutationFn: async (payload: Task): Promise<Task> => {
+      return await apiClient.post<Task>('/tasks', payload)
+    },
+    onSuccess: () => {
+      onClose()
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    }
+  })
+
+  const editMutation = useMutation({
+    mutationFn: async (taskData: Task): Promise<Task> => {
+      return await apiClient.put(`/tasks/${taskData.id}`, taskData)
+    },
+    onSuccess: () => {
+      onClose()
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    }
+  })
+
+  const handleSubmitTask = (task: Task) => {
+    if (!task.title || !task.description || !task.assignee) {
+      return false
+    }
+
+    const taskData: Task = {
+      id: task.id,
+      description: task.description,
+      status: task.status,
+      title: task.title,
+      assignee: task.assignee
+    }
+
+    if (mode === 'create') {
+      createMutation.mutateAsync(taskData)
+      return
+    }
+
+    if (mode === 'edit') {
+      editMutation.mutate(taskData)
+    }
+  }
+
+  const prepareTask = (formData: FormData) => {
+    const title = formData.get('title')
+    const description = formData.get('description')
+    const assignee = formData.get('assignee')
+    const status = formData.get('status')
+
+    if (!title || !description || !assignee) {
+      return false
+    }
+
+    const statusStr = status?.toString() ?? 'todo'
+    if (!isValidStatus(statusStr)) {
+      return false
+    }
+
+    const newTaskData: Task = {
+      id: task && mode === 'edit' ? task.id : crypto.randomUUID().toString(),
+      title: title.toString(),
+      description: description.toString(),
+      assignee: assignee.toString(),
+      status: statusStr
+    }
+
+    handleSubmitTask(newTaskData)
+  }
 
   if (!isOpen) {
     return null
@@ -77,7 +153,7 @@ export default function TaskModal({
         <form
           onSubmit={(event) => {
             event.preventDefault()
-            onSubmit(new FormData(event.currentTarget))
+            prepareTask(new FormData(event.currentTarget))
           }}
         >
           <div className="space-y-4">
@@ -96,25 +172,22 @@ export default function TaskModal({
                 className="w-full resize-none rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-slate-500 dark:focus:ring-slate-600/30"
               />
             </div>
-
-            {!isEditMode && (
-              <div>
-                <label
-                  htmlFor="description"
-                  className="mb-1.5 block text-xs font-medium text-neutral-500 dark:text-slate-400"
-                >
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  defaultValue={task?.description}
-                  placeholder="Describe the task"
-                  rows={3}
-                  className="w-full resize-none rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-slate-500 dark:focus:ring-slate-600/30"
-                />
-              </div>
-            )}
+            <div>
+              <label
+                htmlFor="description"
+                className="mb-1.5 block text-xs font-medium text-neutral-500 dark:text-slate-400"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                defaultValue={task?.description}
+                placeholder="Describe the task"
+                rows={3}
+                className="w-full resize-none rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-slate-500 dark:focus:ring-slate-600/30"
+              />
+            </div>
 
             <div>
               <label
@@ -137,7 +210,6 @@ export default function TaskModal({
                 ))}
               </select>
             </div>
-
             {!isEditMode && (
               <div>
                 <label
@@ -153,7 +225,6 @@ export default function TaskModal({
                 />
               </div>
             )}
-
             {isEditMode && (
               <div>
                 <label
@@ -176,7 +247,6 @@ export default function TaskModal({
                 </select>
               </div>
             )}
-
             <div className="flex justify-end gap-2 mt-6">
               <button
                 type="button"
