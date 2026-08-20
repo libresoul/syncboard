@@ -46,21 +46,28 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
   )
 
   return (
-    <div className="w-full max-w-sm">
-      <h1 className="text-2xl font-bold text-gray-900">Syncboard</h1>
-      <p className="mt-1 text-gray-600">Create your account</p>
-      <p className="mt-1 text-sm text-gray-500">
+    <div className="w-full max-w-md">
+      <span className="inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.26em] text-cyan-700 dark:text-cyan-200">
+        Get started
+      </span>
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+        Create your Syncboard account
+      </h1>
+      <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+        Set up your workspace in under a minute.
+      </p>
+      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
         Already have an account?{' '}
         <button
           type="button"
           onClick={onSwitchToLogin}
-          className="font-medium text-blue-600 hover:underline"
+          className="font-medium text-cyan-700 underline-offset-4 transition hover:underline dark:text-cyan-300"
         >
           Log in
         </button>
       </p>
 
-      <div className="mt-6 grid grid-cols-2 gap-3">
+      <div className="mt-7 grid grid-cols-2 gap-3">
         <SocialAuthButton
           provider="github"
           icon={<FiGithub size={18} />}
@@ -73,23 +80,23 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
         />
       </div>
 
-      <div className="my-5 flex items-center gap-3 text-xs text-gray-400">
-        <span className="h-px flex-1 bg-gray-200" />
+      <div className="my-6 flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">
+        <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
         or continue with email
-        <span className="h-px flex-1 bg-gray-200" />
+        <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
       </div>
 
       <form action={formAction} className="space-y-4" noValidate>
         <div>
           <label
             htmlFor="signup-name"
-            className="mb-1 block text-sm font-medium text-gray-700"
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200"
           >
             Full name
           </label>
           <div className="relative">
             <FiUser
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
               size={16}
             />
             <input
@@ -98,7 +105,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
               type="text"
               autoComplete="name"
               placeholder="Jane Doe"
-              className="w-full rounded-lg border border-gray-200 py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-100"
+              className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-cyan-500/20"
             />
           </div>
         </div>
@@ -106,13 +113,13 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
         <div>
           <label
             htmlFor="signup-email"
-            className="mb-1 block text-sm font-medium text-gray-700"
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200"
           >
             Email
           </label>
           <div className="relative">
             <FiMail
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
               size={16}
             />
             <input
@@ -121,17 +128,25 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
               type="email"
               autoComplete="email"
               placeholder="user@domain.com"
-              className="w-full rounded-lg border border-gray-200 py-2 pl-9 pr-3 text-sm focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-100"
+              className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-cyan-500/20"
             />
           </div>
         </div>
 
-        {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+        <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+          By continuing, you agree to our Terms and Privacy Policy.
+        </p>
+
+        {state.error && (
+          <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300">
+            {state.error}
+          </p>
+        )}
 
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-lg bg-blue-600 py-2 font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full rounded-xl bg-cyan-600 py-2.5 font-semibold text-white transition-colors hover:bg-cyan-500 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isPending ? 'Continuing…' : 'Continue'}
         </button>

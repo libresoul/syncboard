@@ -1,10 +1,25 @@
 import { Outlet } from '@tanstack/react-router'
 import { LuMoon, LuSun } from 'react-icons/lu'
+import LoginPage from '../components/pages/LoginPage'
+import SignUpPage from '../components/pages/SignUpPage'
 import Sidebar from '../components/Sidebar'
 import { useTheme } from '../hooks/useTheme'
 
 export function DashboardLayout() {
   const { isDark, toggleTheme } = useTheme()
+
+  if (window.location.pathname === '/login') {
+    return (
+      <LoginPage onSwitchToSignUp={() => (window.location.href = '/signup')} />
+    )
+  }
+
+  if (window.location.pathname === '/signup') {
+    return (
+      <SignUpPage onSwitchToLogin={() => (window.location.href = '/login')} />
+    )
+  }
+
   return (
     <main className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col lg:flex-row">
