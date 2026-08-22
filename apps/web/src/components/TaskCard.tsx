@@ -1,78 +1,106 @@
+import { useState } from 'react'
+import type { Task } from '../types/task'
+
 type TaskCardProps = {
-  title: string
-  description?: string
-  tag?: string
+  task: Task
   accentColor?: string
-  meta?: { comments?: number; attachments?: number; assigneeInitials?: string }
-  done?: boolean
-  onDelete?: () => void
+  onEditTask: (task: Task) => void
+  onDelete: () => void
 }
 
 export default function TaskCard({
-  title,
-  description,
-  tag,
+  task,
   accentColor = 'bg-cyan-600',
-  meta,
-  done = false,
+  onEditTask,
   onDelete
 }: TaskCardProps) {
+  const [showMenu, setShowMenu] = useState(false)
+  const handleEditTask = () => {
+    onEditTask(task)
+    setShowMenu(false)
+  }
+
+  const handleDeleteTask = () => {
+    onDelete()
+    setShowMenu(false)
+  }
+
   return (
-    <article className="relative bg-white border border-gray-200 p-3 rounded-lg shadow-sm group">
+    <article className="relative rounded-lg border border-gray-200 bg-white p-3 shadow-sm group dark:border-slate-700 dark:bg-slate-900">
       <div className={`absolute top-0 left-0 h-0.5 w-full ${accentColor}`} />
 
-      <div className="flex justify-between items-start mb-2">
-        {tag ? (
-          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded uppercase font-semibold">
-            {tag}
+      <div className="mb-2 flex items-start justify-between">
+        {task.tag ? (
+          <span className="rounded bg-gray-100 px-2 py-0.5 text-xs font-semibold uppercase text-gray-600 dark:bg-slate-800 dark:text-slate-300">
+            {task.tag}
           </span>
         ) : (
           <div />
         )}
-        <div className="flex items-center gap-1">
-          {onDelete && (
-            <button
-              onClick={onDelete}
-              title="Delete task"
-              aria-label="Delete task"
-              className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 transition-colors px-1"
-            >
-              🗑
-            </button>
-          )}
-          <button className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600">
+        <div className="relative">
+          <button
+            onClick={() => setShowMenu(!showMenu)}
+            className="text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-slate-200"
+          >
             ⋮
           </button>
+
+          {showMenu && (
+            <div className="absolute right-0 z-20 mt-2 w-32 rounded-lg border border-gray-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900">
+              <button
+                className="w-full px-3 py-2 text-left text-gray-900 hover:bg-gray-100 dark:text-slate-100 dark:hover:bg-slate-800"
+                onClick={() => handleEditTask()}
+              >
+                Edit
+              </button>
+
+              <button
+                className="w-full px-3 py-2 text-left text-red-600 hover:bg-gray-100 dark:hover:bg-slate-800"
+                onClick={handleDeleteTask}
+              >
+                Delete
+              </button>
+
+              <button
+                className="w-full px-3 py-2 text-left text-gray-900 hover:bg-gray-100 dark:text-slate-100 dark:hover:bg-slate-800"
+                onClick={() => setShowMenu(false)}
+              >
+                Close
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       <h3
-        className={`font-semibold text-sm ${done ? 'line-through text-gray-400' : ''}`}
+        className={`font-semibold text-sm ${task.status === 'done' ? 'line-through text-gray-400 dark:text-slate-500' : 'text-gray-900 dark:text-slate-100'}`}
       >
-        {title}
+        {task.title}
       </h3>
-      {description && (
-        <p className="text-xs text-gray-500 mt-1">{description}</p>
+      {task.description && (
+        <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
+          {task.description}
+        </p>
       )}
 
-      <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
+      <div className="mt-3 flex items-center justify-between text-xs text-gray-500 dark:text-slate-400">
         <div className="flex items-center gap-3">
-          {meta?.comments !== undefined && (
+          {task.comments !== undefined && (
             <span className="flex items-center gap-1">
-              💬 <span className="font-mono">{meta.comments}</span>
+              💬 <span className="font-mono">{task.comments}</span>
             </span>
           )}
-          {meta?.attachments !== undefined && (
+          {task.attachments !== undefined && (
             <span className="flex items-center gap-1">
-              📎 <span className="font-mono">{meta.attachments}</span>
+              📎 <span className="font-mono">{task.attachments}</span>
             </span>
           )}
         </div>
 
         <div className="flex items-center gap-2">
-          {meta?.assigneeInitials ? (
-            <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center text-[10px] font-semibold">
-              {meta.assigneeInitials}
+          {task.assignee ? (
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-[10px] font-semibold text-gray-700 dark:bg-slate-700 dark:text-slate-200">
+              {task.assignee}
             </div>
           ) : null}
         </div>

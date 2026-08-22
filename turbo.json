@@ -9,6 +9,9 @@
     "check-types": {
       "dependsOn": [
         "^check-types"
+      ],
+      "outputs": [
+        ".turbo/*tsbuildinfo"
       ]
     },
     "dev": {
