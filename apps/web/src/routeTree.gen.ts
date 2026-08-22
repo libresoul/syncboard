@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as WorkspacesRouteImport } from './routes/workspaces'
@@ -17,6 +18,11 @@ import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as DashboardBoardsRouteImport } from './routes/dashboard/boards'
 import { Route as DashboardTasksRouteImport } from './routes/dashboard/tasks'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
@@ -53,7 +59,7 @@ const DashboardTasksRoute = DashboardTasksRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthRouteRouteWithChildren
+  '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/workspaces': typeof WorkspacesRoute
   '/login': typeof AuthLoginRoute
@@ -62,7 +68,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/tasks': typeof DashboardTasksRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof AuthRouteRouteWithChildren
+  '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/workspaces': typeof WorkspacesRoute
   '/login': typeof AuthLoginRoute
@@ -72,6 +78,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/workspaces': typeof WorkspacesRoute
@@ -101,6 +108,7 @@ export interface FileRouteTypes {
     | '/dashboard/tasks'
   id:
     | '__root__'
+    | '/'
     | '/_auth'
     | '/dashboard'
     | '/workspaces'
@@ -111,6 +119,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   WorkspacesRoute: typeof WorkspacesRoute
@@ -118,6 +127,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -199,6 +215,7 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   WorkspacesRoute: WorkspacesRoute,
