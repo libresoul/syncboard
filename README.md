@@ -9,8 +9,9 @@ A simple yet fully functional web based kanban board
 | React 19 | Core frontend library |
 | Turborepo | Monorepo build ochestration / build caching |
 | Mirage.js | Mock API server |
-| Biome | Linter/Formatter |
+| Biome | Linter / Formatter |
 | TanStack Query | Frontend data fetching / caching / server state observer |
+| TanStack Router | Client side routering |
 
 ## Project Structure
 
@@ -25,9 +26,11 @@ syncboard/
 │       │   ├── context/                            -- React context
 │       │   ├── data/                               -- mock data
 │       │   ├── hooks/                              -- custom React hooks
-│       │   ├── lib                                 -- utility functions
+│       │   ├── layouts/                            -- layout components
+│       │   ├── lib/                                -- utility functions
+│       │   ├── mirage/                             -- mock API setup
+│       │   ├── routes/                             -- client routes
 │       │   ├── main.tsx                            -- root renderer
-│       │   ├── mockServer.ts                       -- mock API server
 │       │   └── types/                              -- shared types
 │       ├── tsconfig.json                           -- typescript configuration
 │       └── vite.config.ts                          -- bundler configuration
@@ -38,7 +41,7 @@ syncboard/
 
 ## Prerequisites
 
-- npm@12.0.2
+- npm >= 12.0.2
 
 ## Setting Up
 
