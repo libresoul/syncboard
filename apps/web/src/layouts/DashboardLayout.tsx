@@ -1,9 +1,9 @@
+import { Outlet } from '@tanstack/react-router'
 import { LuMoon, LuSun } from 'react-icons/lu'
-import Sidebar from './components/Sidebar'
-import TaskBoard from './components/TaskBoard'
-import { useTheme } from './hooks/useTheme'
+import Sidebar from '../components/Sidebar'
+import { useTheme } from '../hooks/useTheme'
 
-function App() {
+export function DashboardLayout() {
   const { isDark, toggleTheme } = useTheme()
   return (
     <main className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
@@ -38,12 +38,10 @@ function App() {
           </header>
 
           <div className="flex-1 overflow-hidden">
-            <TaskBoard />
+            <Outlet />
           </div>
         </section>
       </div>
     </main>
   )
 }
-
-export default App
