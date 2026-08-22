@@ -1,5 +1,5 @@
 import { LuPlus } from 'react-icons/lu'
-import Boardcard from '../components/boardcard'
+import Boardcard from '../components/Boardcard'
 
 type Board = { name: string; description: string; lists: number; tasks: number }
 
