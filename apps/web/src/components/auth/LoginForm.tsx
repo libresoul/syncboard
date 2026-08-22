@@ -1,6 +1,8 @@
+import { Link } from '@tanstack/react-router'
 import { useActionState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { FiGithub, FiMail } from 'react-icons/fi'
+import { Route as signUpRoute } from '../../routes/_auth/signup'
 import SocialAuthButton from './SocialAuthButton'
 
 type LoginState = {
@@ -43,12 +45,12 @@ export default function LoginForm() {
       </p>
       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
         Don&apos;t have an account?{' '}
-        <button
-          type="button"
+        <Link
+          to={signUpRoute.to}
           className="font-medium text-cyan-700 underline-offset-4 transition hover:underline dark:text-cyan-300"
         >
           Sign up
-        </button>
+        </Link>
       </p>
 
       <div className="mt-7 grid grid-cols-2 gap-3">
