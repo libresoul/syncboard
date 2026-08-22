@@ -4,7 +4,7 @@ import './index.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { ThemeProvider } from './context/ThemeContext'
-import { makeServer } from './mockServer.ts'
+import { makeServer } from './mirage/server.ts'
 import { routeTree } from './routeTree.gen.ts'
 
 const rootElement = document.getElementById('root')
