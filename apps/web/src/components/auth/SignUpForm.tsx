@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useActionState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { FiGithub, FiMail, FiUser } from 'react-icons/fi'
@@ -11,31 +11,31 @@ type SignUpState = {
 
 const initialState: SignUpState = {}
 
-async function signUpAction(
-  _prevState: SignUpState,
-  formData: FormData
-): Promise<SignUpState> {
-  const name = formData.get('name')
-  const email = formData.get('email')
-
-  if (typeof name !== 'string' || !name.trim()) {
-    return { error: 'Enter your name to continue.' }
-  }
-
-  if (typeof email !== 'string' || !email.trim()) {
-    return { error: 'Enter your email to continue.' }
-  }
-
-  console.log('[signup] would submit:', { name, email })
-
-  return {}
-}
-
 export default function SignUpForm() {
+  const navigate = useNavigate({ from: '/signup' })
   const [state, formAction, isPending] = useActionState(
     signUpAction,
     initialState
   )
+  async function signUpAction(
+    _prevState: SignUpState,
+    formData: FormData
+  ): Promise<SignUpState> {
+    const name = formData.get('name')
+    const email = formData.get('email')
+
+    if (typeof name !== 'string' || !name.trim()) {
+      return { error: 'Enter your name to continue.' }
+    }
+
+    if (typeof email !== 'string' || !email.trim()) {
+      return { error: 'Enter your email to continue.' }
+    }
+
+    console.log('[signup] would submit:', { name, email })
+    navigate({ to: '/login' })
+    return {}
+  }
 
   return (
     <div className="w-full max-w-md">

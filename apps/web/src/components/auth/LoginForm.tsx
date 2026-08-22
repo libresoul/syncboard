@@ -1,7 +1,8 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useActionState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { FiGithub, FiMail } from 'react-icons/fi'
+import { Route as loginRoute } from '../../routes/_auth/login'
 import { Route as signUpRoute } from '../../routes/_auth/signup'
 import SocialAuthButton from './SocialAuthButton'
 
@@ -11,26 +12,27 @@ type LoginState = {
 
 const initialState: LoginState = {}
 
-async function loginAction(
-  _prevState: LoginState,
-  formData: FormData
-): Promise<LoginState> {
-  const email = formData.get('email')
-
-  if (typeof email !== 'string' || !email.trim()) {
-    return { error: 'Enter your email to continue.' }
-  }
-
-  console.log('[login] would submit:', { email })
-
-  return {}
-}
-
 export default function LoginForm() {
+  const navigate = useNavigate({ from: loginRoute.to })
   const [state, formAction, isPending] = useActionState(
     loginAction,
     initialState
   )
+
+  async function loginAction(
+    _prevState: LoginState,
+    formData: FormData
+  ): Promise<LoginState> {
+    const email = formData.get('email')
+
+    if (typeof email !== 'string' || !email.trim()) {
+      return { error: 'Enter your email to continue.' }
+    }
+
+    console.log('[login] would submit:', { email })
+    navigate({ to: '/dashboard', replace: true })
+    return {}
+  }
 
   return (
     <div className="w-full max-w-md">
