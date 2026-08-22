@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { apiClient } from '../lib/api-client'
+import { Route as boardRoute } from '../routes/dashboard/boards'
 import type { Workspace } from '../types/workspace'
 
 export default function WorkspaceSelector() {
@@ -71,7 +73,8 @@ export default function WorkspaceSelector() {
                 </div>
               ) : (
                 query.data?.map((ws) => (
-                  <button
+                  <Link
+                    to={boardRoute.to}
                     key={ws.id}
                     className="w-full text-left p-5 border-2 border-gray-700 hover:border-blue-600 rounded-xl shadow-sm hover:shadow-md transition-all group bg-linear-to-r from-amber-50/40 to-white hover:bg-blue-50/30 flex items-center justify-between"
                   >
@@ -88,7 +91,7 @@ export default function WorkspaceSelector() {
                     <span className="text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all text-xl font-bold">
                       →
                     </span>
-                  </button>
+                  </Link>
                 ))
               )}
 
