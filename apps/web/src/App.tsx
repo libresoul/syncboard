@@ -10,7 +10,9 @@ import type { Workspace } from './types/workspace'
 function App() {
   const { isDark, toggleTheme } = useTheme()
   const [workspaces, setWorkspaces] = useState<Workspace[]>(initialWorkspaces)
-  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null)
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(
+    null
+  )
 
   const handleSelectWorkspace = (workspace: Workspace) => {
     setCurrentWorkspace(workspace)
