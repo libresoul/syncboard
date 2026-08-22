@@ -30,7 +30,7 @@ export default function LoginForm() {
     }
 
     console.log('[login] would submit:', { email })
-    navigate({ to: '/dashboard', replace: true })
+    navigate({ to: '/workspaces', replace: true })
     return {}
   }
 
