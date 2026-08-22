@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react'
+import { Outlet } from '@tanstack/react-router'
 import { FiCheckCircle } from 'react-icons/fi'
 import { LuMoon, LuSun } from 'react-icons/lu'
-import { useTheme } from '../../hooks/useTheme'
+import { useTheme } from '../hooks/useTheme'
 
 type Feature = {
   title: string
@@ -27,16 +27,7 @@ const FEATURES: Feature[] = [
   }
 ]
 
-type AuthShellProps = {
-  children: ReactNode
-}
-
-/**
- * Split-screen shell shared by the Login and Sign Up pages.
- * Left: platform feature overview panel (hidden on small screens).
- * Right: slot for the actual auth form.
- */
-export default function AuthShell({ children }: AuthShellProps) {
+export default function AuthShell() {
   const { isDark, toggleTheme } = useTheme()
 
   return (
@@ -95,7 +86,7 @@ export default function AuthShell({ children }: AuthShellProps) {
 
         <div className="relative flex w-full items-center justify-center p-7 sm:p-8 md:w-[48%] md:p-10">
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(140deg,rgba(6,182,212,0.07),transparent_30%)] dark:bg-[linear-gradient(140deg,rgba(8,145,178,0.14),transparent_30%)]" />
-          {children}
+          <Outlet />
         </div>
       </div>
     </div>
