@@ -9,11 +9,6 @@ type SignUpState = {
 
 const initialState: SignUpState = {}
 
-/**
- * Same idea as loginAction: no backend to call yet, so this only
- * validates and logs. Swap for a real call (e.g. POST /api/auth/signup)
- * once the API exists.
- */
 async function signUpAction(
   _prevState: SignUpState,
   formData: FormData
@@ -29,17 +24,12 @@ async function signUpAction(
     return { error: 'Enter your email to continue.' }
   }
 
-  // TODO: replace with a real call once POST /api/auth/signup exists.
   console.log('[signup] would submit:', { name, email })
 
   return {}
 }
 
-type SignUpFormProps = {
-  onSwitchToLogin?: () => void
-}
-
-export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
+export default function SignUpForm() {
   const [state, formAction, isPending] = useActionState(
     signUpAction,
     initialState
@@ -60,7 +50,6 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
         Already have an account?{' '}
         <button
           type="button"
-          onClick={onSwitchToLogin}
           className="font-medium text-cyan-700 underline-offset-4 transition hover:underline dark:text-cyan-300"
         >
           Log in

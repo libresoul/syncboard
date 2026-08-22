@@ -9,13 +9,6 @@ type LoginState = {
 
 const initialState: LoginState = {}
 
-/**
- * Form action for React 19's uncontrolled <form action={...}> pattern.
- * There is no backend yet, so this only validates and logs what would
- * be sent. Swap the body of this function for a real API call
- * (e.g. POST /api/auth/login) once the API exists — the form itself
- * won't need to change.
- */
 async function loginAction(
   _prevState: LoginState,
   formData: FormData
@@ -26,17 +19,12 @@ async function loginAction(
     return { error: 'Enter your email to continue.' }
   }
 
-  // TODO: replace with a real call once POST /api/auth/login exists.
   console.log('[login] would submit:', { email })
 
   return {}
 }
 
-type LoginFormProps = {
-  onSwitchToSignUp?: () => void
-}
-
-export default function LoginForm({ onSwitchToSignUp }: LoginFormProps) {
+export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(
     loginAction,
     initialState
@@ -57,7 +45,6 @@ export default function LoginForm({ onSwitchToSignUp }: LoginFormProps) {
         Don&apos;t have an account?{' '}
         <button
           type="button"
-          onClick={onSwitchToSignUp}
           className="font-medium text-cyan-700 underline-offset-4 transition hover:underline dark:text-cyan-300"
         >
           Sign up
