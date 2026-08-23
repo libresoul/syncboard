@@ -11,7 +11,7 @@ A simple yet fully functional web based kanban board
 | Mirage.js | Mock API server |
 | Biome | Linter / Formatter |
 | TanStack Query | Frontend data fetching / caching / server state observer |
-| TanStack Router | Client side routering |
+| TanStack Router | Client side routing |
 
 ## Project Structure
 
