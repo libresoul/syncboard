@@ -28,6 +28,30 @@ app.get('/', (_: Request, res: Response) => {
   res.json({ message: 'Hello Syncboard' })
 })
 
-app.listen(PORT, () => {
-  logger.info(`Server is running on http://localhost:${PORT}`)
+async function startServer() {
+  try {
+    const srv = app.listen(PORT, () => {
+      logger.info(`Server is running on http://localhost:${PORT}`)
+    })
+
+    srv.on('error', (err) => {
+      logger.error(err, 'Failed to start server')
+      process.exit(1)
+    })
+  } catch (err) {
+    logger.error(err, 'Failed to start server')
+    process.exit(1)
+  }
+}
+
+process.on('SIGINT', () => {
+  logger.info('Recieved SIGINT, shutting down...')
+  process.exit(0)
 })
+
+process.on('SIGTERM', () => {
+  logger.info('Recieved SIGTERM, shutting down...')
+  process.exit(0)
+})
+
+startServer()
