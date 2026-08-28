@@ -3,6 +3,9 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "module": "commonJS",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "target": "esnext",
     "types": ["node", "express"],
     "sourceMap": true,
