@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "module": "nodenext",
+    "module": "commonJS",
     "target": "esnext",
     "types": ["node", "express"],
     "sourceMap": true,
