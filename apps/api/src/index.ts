@@ -1,20 +1,9 @@
 import express, { type Request, type Response } from 'express'
-import pino from 'pino'
 import { pinoHttp } from 'pino-http'
+import logger from './utils/logger'
 
 const app = express()
 const PORT = process.env.PORT || 3000
-const logger = pino({
-  level: 'info',
-  transport: {
-    target: 'pino-pretty',
-    options: {
-      colorize: true,
-      levelFirst: true,
-      translateTime: 'HH:MM:ss'
-    }
-  }
-})
 
 app.use(
   pinoHttp({
