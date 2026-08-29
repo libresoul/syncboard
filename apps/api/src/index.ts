@@ -1,5 +1,8 @@
 import express from 'express'
+import { attachRouting } from 'express-zod-api'
+import { apiConfig } from './config/api.config'
 import { requestLogger } from './middleware/requestLogger'
+import { routing } from './routing'
 import logger from './utils/logger'
 
 const app = express()
@@ -7,6 +10,10 @@ const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 app.use(requestLogger)
+
+const config = apiConfig(app)
+const { notFoundHandler } = attachRouting(config, routing)
+app.use(notFoundHandler)
 
 async function startServer() {
   try {
