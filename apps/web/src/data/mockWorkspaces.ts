@@ -1,4 +1,4 @@
-import type { Workspace } from '../types/workspace'
+import type { Workspace } from '@repo/shared'
 
 export const initialWorkspaces: Workspace[] = [
   {

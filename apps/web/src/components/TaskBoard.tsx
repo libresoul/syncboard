@@ -1,7 +1,7 @@
+import type { Task } from '@repo/shared'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { apiClient } from '../lib/api-client'
-import type { Task } from '../types/task'
 import Column from './Column'
 import DeleteConfirmationModal from './DeleteConfirmationModal'
 import TaskCard from './TaskCard'
