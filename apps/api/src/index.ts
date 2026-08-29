@@ -1,4 +1,4 @@
-import express, { type Request, type Response } from 'express'
+import express from 'express'
 import { requestLogger } from './middleware/requestLogger'
 import logger from './utils/logger'
 
@@ -7,10 +7,6 @@ const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 app.use(requestLogger)
-
-app.get('/', (_: Request, res: Response) => {
-  res.json({ message: 'Hello Syncboard' })
-})
 
 async function startServer() {
   try {
