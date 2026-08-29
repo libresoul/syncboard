@@ -28,14 +28,4 @@ async function startServer() {
   }
 }
 
-process.on('SIGINT', () => {
-  logger.info('Recieved SIGINT, shutting down...')
-  process.exit(0)
-})
-
-process.on('SIGTERM', () => {
-  logger.info('Recieved SIGTERM, shutting down...')
-  process.exit(0)
-})
-
 startServer()
