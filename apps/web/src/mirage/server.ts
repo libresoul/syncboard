@@ -1,6 +1,6 @@
 import {
   initialWorkspaces,
-  mockData,
+  mockTasks,
   type Task,
   type Workspace
 } from '@repo/shared'
@@ -39,7 +39,7 @@ export function makeServer({ environment = 'development' }: Environment) {
     },
 
     seeds(server) {
-      mockData.forEach((data) => {
+      mockTasks.forEach((data) => {
         server.create('task', data)
       })
       initialWorkspaces.forEach((workspace) => {
