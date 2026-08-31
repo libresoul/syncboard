@@ -12,6 +12,7 @@ A simple yet fully functional web based kanban board
 | Biome | Linter / Formatter |
 | TanStack Query | Frontend data fetching / caching / server state observer |
 | TanStack Router | Client side routing |
+| Scalar | API documentation / client |
 
 ## Project Structure
 
@@ -19,7 +20,17 @@ A simple yet fully functional web based kanban board
 syncboard/
 ├── apps
 │   ├── api
-│   │   ├── src/
+│   │   ├── src
+│   │   │   ├── config/api.config.ts                -- Express zod API config
+│   │   │   ├── controllers/                        -- API controllers
+│   │   │   ├── docs/                               -- Express zod API docs config
+│   │   │   ├── endpoints/                          -- API endpoints
+│   │   │   ├── index.ts                            -- entrypoint
+│   │   │   ├── middleware/                         -- API middlewares
+│   │   │   ├── models/                             -- Entity models
+│   │   │   ├── routing.ts                          -- Express zod API routemap
+│   │   │   └── utils/                              -- utility functions
+│   │   └── tsconfig.json                           -- typescript configuration
 │   └── web                                         -- React frontend
 │       ├── src
 │       │   ├── components/                         -- UI components
@@ -34,6 +45,13 @@ syncboard/
 │       │   └── types/                              -- shared types
 │       ├── tsconfig.json                           -- typescript configuration
 │       └── vite.config.ts                          -- bundler configuration
+├── packages
+│   └── shared
+│       └── src
+│           ├── data                                -- Shared mock data
+│           ├── index.ts
+│           ├── schemas                             -- Shared schemas
+│           └── types                               -- Shared types
 ├── biome.json                                      -- linter / formatter configuration
 ├── lefthook.yml                                    -- git hooks configuration
 └── turbo.json                                      -- turbo tasks configuration
