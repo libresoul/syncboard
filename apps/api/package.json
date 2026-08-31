@@ -12,6 +12,7 @@
   "keywords": [],
   "dependencies": {
     "@repo/shared": "*",
+    "@scalar/express-api-reference": "^0.10.17",
     "express": "^5.2.1",
     "express-zod-api": "^29.4.0",
     "http-errors": "^2.0.1",

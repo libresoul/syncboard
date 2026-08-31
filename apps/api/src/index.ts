@@ -1,6 +1,8 @@
+import { apiReference } from '@scalar/express-api-reference'
 import express from 'express'
 import { attachRouting } from 'express-zod-api'
 import { apiConfig } from './config/api.config'
+import { documentation } from './docs'
 import { requestLogger } from './middleware/requestLogger'
 import { routing } from './routing'
 import logger from './utils/logger'
@@ -13,6 +15,14 @@ app.use(requestLogger)
 
 const config = apiConfig(app)
 const { notFoundHandler } = attachRouting(config, routing)
+
+app.use(
+  '/docs',
+  apiReference({
+    content: documentation.getSpecAsJson()
+  })
+)
+
 app.use(notFoundHandler)
 
 async function startServer() {
