@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "tsBuildInfoFile": ".turbo/tsconfig.shared.tsbuildinfo",
+    "composite": true
+  },
+  "include": ["src"]
+}

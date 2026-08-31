@@ -1,6 +1,6 @@
-import type { Task } from '../types/task'
+import type { Task } from '@repo/shared'
 
-const mockData: Task[] = [
+export const mockTasks: Task[] = [
   {
     id: 't1',
     assignee: 'AL',
@@ -61,5 +61,3 @@ const mockData: Task[] = [
     title: 'Initial Setup'
   }
 ]
-
-export default mockData

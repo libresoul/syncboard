@@ -1,6 +1,6 @@
+import type { Task } from '@repo/shared'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '../lib/api-client'
-import type { Task } from '../types/task'
 
 type DeleteConfirmationModalProps = {
   task: Task

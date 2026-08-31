@@ -1,10 +1,12 @@
+import {
+  initialWorkspaces,
+  mockTasks,
+  type Task,
+  type Workspace
+} from '@repo/shared'
 import { createServer, Model } from 'miragejs'
 import type { AnyFactories, ModelDefinition, Registry } from 'miragejs/-types'
 import type Schema from 'miragejs/orm/schema'
-import mockData from '../data/mockTasks'
-import { initialWorkspaces } from '../data/mockWorkspaces'
-import type { Task } from '../types/task'
-import type { Workspace } from '../types/workspace'
 import tasksRoutes from './routes/tasks'
 import workspacesRoutes from './routes/workspaces'
 
@@ -37,7 +39,7 @@ export function makeServer({ environment = 'development' }: Environment) {
     },
 
     seeds(server) {
-      mockData.forEach((data) => {
+      mockTasks.forEach((data) => {
         server.create('task', data)
       })
       initialWorkspaces.forEach((workspace) => {

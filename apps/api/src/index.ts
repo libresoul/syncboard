@@ -1,5 +1,8 @@
-import express, { type Request, type Response } from 'express'
+import express from 'express'
+import { attachRouting } from 'express-zod-api'
+import { apiConfig } from './config/api.config'
 import { requestLogger } from './middleware/requestLogger'
+import { routing } from './routing'
 import logger from './utils/logger'
 
 const app = express()
@@ -8,9 +11,9 @@ const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(requestLogger)
 
-app.get('/', (_: Request, res: Response) => {
-  res.json({ message: 'Hello Syncboard' })
-})
+const config = apiConfig(app)
+const { notFoundHandler } = attachRouting(config, routing)
+app.use(notFoundHandler)
 
 async function startServer() {
   try {
@@ -27,15 +30,5 @@ async function startServer() {
     process.exit(1)
   }
 }
-
-process.on('SIGINT', () => {
-  logger.info('Recieved SIGINT, shutting down...')
-  process.exit(0)
-})
-
-process.on('SIGTERM', () => {
-  logger.info('Recieved SIGTERM, shutting down...')
-  process.exit(0)
-})
 
 startServer()

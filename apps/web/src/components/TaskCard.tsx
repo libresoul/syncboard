@@ -1,5 +1,5 @@
+import type { Task } from '@repo/shared'
 import { useState } from 'react'
-import type { Task } from '../types/task'
 
 type TaskCardProps = {
   task: Task
