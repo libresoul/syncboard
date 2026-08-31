@@ -5,7 +5,7 @@ export const apiConfig = (app: ReturnType<typeof express>) => {
   return createConfig({
     app,
     accessLogger: null,
-    cors: false,
+    cors: true,
     startupLogo: false
   })
 }
