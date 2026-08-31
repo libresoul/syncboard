@@ -29,7 +29,7 @@ async function request<T>(
     return null as T
   }
 
-  const data = await res.json()
+  const { data } = await res.json()
 
   if (!res.ok) {
     throw data

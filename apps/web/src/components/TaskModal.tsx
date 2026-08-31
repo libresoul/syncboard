@@ -37,7 +37,7 @@ export default function TaskModal({
   }
 
   const createMutation = useMutation({
-    mutationFn: async (payload: Task): Promise<Task> => {
+    mutationFn: async (payload: { task: Task }): Promise<Task> => {
       return await apiClient.post<Task>('/tasks', payload)
     },
     onSuccess: () => {
@@ -47,8 +47,8 @@ export default function TaskModal({
   })
 
   const editMutation = useMutation({
-    mutationFn: async (taskData: Task): Promise<Task> => {
-      return await apiClient.put(`/tasks/${taskData.id}`, taskData)
+    mutationFn: async (payload: { task: Task }): Promise<Task> => {
+      return await apiClient.put(`/tasks/${payload.task.id}`, payload)
     },
     onSuccess: () => {
       onClose()
@@ -61,21 +61,23 @@ export default function TaskModal({
       return false
     }
 
-    const taskData: Task = {
-      id: task.id,
-      description: task.description,
-      status: task.status,
-      title: task.title,
-      assignee: task.assignee
+    const taskPayload: { task: Task } = {
+      task: {
+        id: task.id,
+        description: task.description,
+        status: task.status,
+        title: task.title,
+        assignee: task.assignee
+      }
     }
 
     if (mode === 'create') {
-      createMutation.mutateAsync(taskData)
+      createMutation.mutateAsync(taskPayload)
       return
     }
 
     if (mode === 'edit') {
-      editMutation.mutate(taskData)
+      editMutation.mutate(taskPayload)
     }
   }
 
