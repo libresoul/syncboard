@@ -21,10 +21,12 @@ export default function WorkspaceSelector() {
     mutationFn: async (data: Workspace) => {
       if (!data.id || !data.name) return
 
-      const payload: Workspace = {
-        id: data.id,
-        name: data.name,
-        description: data.description
+      const payload: { workspace: Workspace } = {
+        workspace: {
+          id: data.id,
+          name: data.name,
+          description: data.description
+        }
       }
       await apiClient.post<Workspace>('/workspaces', payload)
     },
