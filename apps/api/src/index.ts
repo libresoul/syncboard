@@ -29,6 +29,7 @@ async function startServer() {
   try {
     const srv = app.listen(PORT, () => {
       logger.info(`Server is running on http://localhost:${PORT}`)
+      logger.info(`API docs available on http://localhost:${PORT}/docs`)
     })
 
     srv.on('error', (err) => {
