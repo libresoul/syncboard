@@ -13,8 +13,8 @@ if (!rootElement) {
   throw new Error('Root element not found')
 }
 
-if (import.meta.env.DEV) {
-  makeServer({ environment: 'development' })
+if (import.meta.env.VITE_APP_ENV === 'testing') {
+  makeServer({ environment: 'testing' })
 }
 
 const queryClient = new QueryClient()

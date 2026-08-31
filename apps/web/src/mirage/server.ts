@@ -11,7 +11,7 @@ import tasksRoutes from './routes/tasks'
 import workspacesRoutes from './routes/workspaces'
 
 type Environment = {
-  environment: 'development' | 'test'
+  environment: 'development' | 'testing'
 }
 
 const taskModel: ModelDefinition<Task> = Model.extend({})
