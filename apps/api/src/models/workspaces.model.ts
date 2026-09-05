@@ -1,11 +1,14 @@
-import { initialWorkspaces, type Workspace } from '@repo/shared'
-
-const workspaces: Workspace[] = initialWorkspaces
+import type { Workspace } from '@repo/shared'
+import { getCollection } from '@/db/utils'
 
 export const workspacesModel = {
-  findAll: async (): Promise<Workspace[]> => workspaces,
+  findAll: async (): Promise<Workspace[]> => {
+    const collection = await getCollection<Workspace>('workspaces')
+    return await collection.find().toArray()
+  },
   create: async (workspace: Workspace): Promise<Workspace> => {
-    workspaces.push(workspace)
+    const collection = await getCollection<Workspace>('workspaces')
+    await collection.insertOne(workspace)
     return workspace
   }
 }

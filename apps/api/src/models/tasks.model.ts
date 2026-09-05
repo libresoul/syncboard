@@ -1,29 +1,46 @@
-import { mockTasks, type Task } from '@repo/shared'
-
-const tasks: Task[] = mockTasks
+import type { Task, UpdateTaskInput } from '@repo/shared'
+import { getCollection } from '@/db/utils'
 
 export const tasksModel = {
-  findAll: async (): Promise<Task[]> => tasks,
+  findAll: async (): Promise<Task[]> => {
+    const collection = await getCollection<Task>('tasks')
+    return collection.find().toArray()
+  },
   create: async (task: Task): Promise<Task> => {
-    tasks.push(task)
+    const collection = await getCollection<Task>('tasks')
+    await collection.insertOne(task)
     return task
   },
-  update: async (task: Task): Promise<Task> => {
-    const index = tasks.findIndex((t) => t.id === task.id)
-    if (index !== -1) {
-      tasks[index] = task
-      return task
-    } else {
-      throw new Error('Task not found')
+  update: async (taskId: string, task: UpdateTaskInput): Promise<Task> => {
+    const collection = await getCollection<Task>('tasks')
+    const existing = await collection.findOne({ id: taskId })
+    if (!existing) {
+      throw new Error('task not found')
     }
+
+    const result = await collection.findOneAndUpdate(
+      { id: taskId },
+      {
+        $set: {
+          ...task,
+          title: task.title ?? existing.title,
+          status: task.status ?? existing.status
+        }
+      },
+      { returnDocument: 'after' }
+    )
+    if (!result) {
+      throw new Error('task not found')
+    }
+
+    return result
   },
-  remove: async (taskId: string): Promise<boolean> => {
-    const index = tasks.findIndex((t) => t.id === taskId)
-    if (index !== -1) {
-      tasks.splice(index, 1)
-      return true
-    } else {
-      throw new Error('Task not found')
+  remove: async (taskId: string) => {
+    const collection = await getCollection<Task>('tasks')
+    const result = await collection.deleteOne({ id: taskId })
+
+    if (result.deletedCount === 0) {
+      throw new Error('task not found')
     }
   }
 }
