@@ -3,6 +3,7 @@ import express from 'express'
 import { attachRouting } from 'express-zod-api'
 import { apiConfig } from './config/api.config'
 import env from './config/env'
+import { connectToDatabase } from './db/client'
 import { documentation } from './docs'
 import { requestLogger } from './middleware/requestLogger'
 import { routing } from './routing'
@@ -28,7 +29,8 @@ app.use(notFoundHandler)
 
 async function startServer() {
   try {
-    const srv = app.listen(PORT, () => {
+    const srv = app.listen(PORT, async () => {
+      await connectToDatabase()
       logger.info(`Server is running on http://localhost:${PORT}`)
       logger.info(`API docs available on http://localhost:${PORT}/docs`)
     })
