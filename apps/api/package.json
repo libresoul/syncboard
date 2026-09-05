@@ -11,8 +11,10 @@
   },
   "keywords": [],
   "dependencies": {
+    "@better-auth/mongo-adapter": "^1.7.2",
     "@repo/shared": "*",
     "@scalar/express-api-reference": "^0.10.17",
+    "better-auth": "^1.7.2",
     "express": "^5.2.1",
     "express-zod-api": "^29.4.0",
     "http-errors": "^2.0.1",
