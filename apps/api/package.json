@@ -16,6 +16,7 @@
     "express": "^5.2.1",
     "express-zod-api": "^29.4.0",
     "http-errors": "^2.0.1",
+    "mongodb": "^7.6.0",
     "pino-http": "^11.0.0",
     "zod": "^4.5.2"
   },
