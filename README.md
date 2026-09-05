@@ -21,16 +21,23 @@ syncboard/
 ├── apps
 │   ├── api
 │   │   ├── src
-│   │   │   ├── config/api.config.ts                -- Express zod API config
-│   │   │   ├── controllers/                        -- API controllers
-│   │   │   ├── docs/                               -- Express zod API docs config
-│   │   │   ├── endpoints/                          -- API endpoints
-│   │   │   ├── index.ts                            -- entrypoint
-│   │   │   ├── middleware/                         -- API middlewares
-│   │   │   ├── models/                             -- Entity models
-│   │   │   ├── routing.ts                          -- Express zod API routemap
-│   │   │   └── utils/                              -- utility functions
-│   │   └── tsconfig.json                           -- typescript configuration
+│   │   │   ├── config
+│   │   │   │   ├── api.config.ts                   -- Express zod API config
+│   │   │   │   ├── db.config.ts                    -- database configuration
+│   │   │   │   └── env.ts                          -- environment variable validation
+│   │   │   ├── controllers/                        -- request handlers
+│   │   │   ├── db
+│   │   │   │   ├── client.ts                       -- MongoDB client and connection
+│   │   │   │   └── utils.ts                        -- database utilities
+│   │   │   ├── docs/index.ts                       -- API documentation config
+│   │   │   ├── endpoints/                          -- API endpoint definitions
+│   │   │   ├── index.ts                            -- application entrypoint
+│   │   │   ├── middleware/                         -- API middleware
+│   │   │   ├── models/                             -- database models
+│   │   │   ├── routing.ts                          -- Express zod API route map
+│   │   │   └── utils/logger.ts                     -- Pino logger
+│   │   ├── .env.example                            -- API environment template
+│   │   └── tsconfig.json                           -- TypeScript configuration
 │   └── web                                         -- React frontend
 │       ├── src
 │       │   ├── components/                         -- UI components
@@ -69,6 +76,21 @@ Clone the repository locally
 git clone https://github.com/libresoul/syncboard
 cd syncboard
 npm install
+```
+
+The Express.js API requires multiple environment variables to function.
+Create a `.env` environment file from the provided template:
+
+```bash
+cp apps/api/.env.example apps/api/.env
+```
+
+Update `apps/api/.env` with the values for your MongoDB instance:
+
+```dotenv
+DATABASE_URL=<your connection string>
+DB_NAME=syncboard
+PORT=3000
 ```
 
 ## Development
