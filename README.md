@@ -7,6 +7,8 @@ A simple yet fully functional web based kanban board
 | Technology | Role |
 |--------------- | --------------- |
 | React 19 | Core frontend library |
+| Express.js | API framework |
+| MongoDB | Database solution |
 | Turborepo | Monorepo build ochestration / build caching |
 | Mirage.js | Mock API server |
 | Biome | Linter / Formatter |
