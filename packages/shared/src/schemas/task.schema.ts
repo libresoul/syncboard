@@ -11,4 +11,7 @@ export const taskSchema = z.object({
   assignee: z.optional(z.string())
 })
 
+export const updateTaskSchema = z.partial(z.omit(taskSchema, { id: true }))
+
 export type Task = z.infer<typeof taskSchema>
+export type UpdateTaskInput = z.infer<typeof updateTaskSchema>

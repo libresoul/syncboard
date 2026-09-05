@@ -1,4 +1,4 @@
-import { taskSchema } from '@repo/shared'
+import { taskSchema, updateTaskSchema } from '@repo/shared'
 import { defaultEndpointsFactory } from 'express-zod-api'
 import z from 'zod'
 import { tasksController } from '@/controllers/tasks.controller'
@@ -20,7 +20,7 @@ export const createTaskEndpoint = defaultEndpointsFactory.build({
 
 export const updateTaskEndpoint = defaultEndpointsFactory.build({
   method: 'put',
-  input: z.object({ taskId: z.string(), task: taskSchema }),
+  input: z.object({ taskId: z.string(), task: updateTaskSchema }),
   output: z.object({ task: taskSchema }),
   handler: async ({ input: { taskId, task } }) => ({
     task: await tasksController.update(taskId, task)
