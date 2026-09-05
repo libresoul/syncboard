@@ -2,13 +2,14 @@ import { apiReference } from '@scalar/express-api-reference'
 import express from 'express'
 import { attachRouting } from 'express-zod-api'
 import { apiConfig } from './config/api.config'
+import env from './config/env'
 import { documentation } from './docs'
 import { requestLogger } from './middleware/requestLogger'
 import { routing } from './routing'
 import logger from './utils/logger'
 
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = env.PORT
 
 app.use(express.json())
 app.use(requestLogger)
