@@ -1,7 +1,9 @@
 import { apiReference } from '@scalar/express-api-reference'
+import { toNodeHandler } from 'better-auth/node'
 import express from 'express'
 import { attachRouting } from 'express-zod-api'
 import { apiConfig } from './config/api.config'
+import { auth } from './config/auth.config'
 import env from './config/env'
 import { connectToDatabase } from './db/client'
 import { documentation } from './docs'
@@ -11,6 +13,8 @@ import logger from './utils/logger'
 
 const app = express()
 const PORT = env.PORT
+
+app.all('/api/auth/{*splat}', toNodeHandler(auth))
 
 app.use(express.json())
 app.use(requestLogger)
