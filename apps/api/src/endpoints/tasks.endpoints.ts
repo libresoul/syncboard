@@ -20,10 +20,10 @@ export const createTaskEndpoint = defaultEndpointsFactory.build({
 
 export const updateTaskEndpoint = defaultEndpointsFactory.build({
   method: 'put',
-  input: z.object({ task: taskSchema }),
+  input: z.object({ taskId: z.string(), task: taskSchema }),
   output: z.object({ task: taskSchema }),
-  handler: async ({ input: { task } }) => ({
-    task: await tasksController.update(task)
+  handler: async ({ input: { taskId, task } }) => ({
+    task: await tasksController.update(taskId, task)
   })
 })
 

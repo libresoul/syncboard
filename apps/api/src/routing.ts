@@ -17,8 +17,10 @@ export const routing: Routing = {
     tasks: {
       get: listTasksEndpoint,
       post: createTaskEndpoint,
-      put: updateTaskEndpoint,
-      delete: deleteTaskEndpoint
+      ':taskId': {
+        put: updateTaskEndpoint,
+        delete: deleteTaskEndpoint
+      }
     },
     workspaces: {
       get: listWorkspacesEndpoint,

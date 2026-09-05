@@ -4,10 +4,9 @@ import { tasksModel } from '@/models/tasks.model'
 export const tasksController = {
   list: async () => tasksModel.findAll(),
   create: async (task: Task) => tasksModel.create(task),
-  update: async (task: Task) => {
-    // Implement the update logic here, for example:
+  update: async (taskId: string, task: Task) => {
     const existingTasks = await tasksModel.findAll()
-    const index = existingTasks.findIndex((t) => t.id === task.id)
+    const index = existingTasks.findIndex((t) => t.id === taskId)
     if (index !== -1) {
       existingTasks[index] = task
       return task
