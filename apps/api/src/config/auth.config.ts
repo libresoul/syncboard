@@ -5,7 +5,10 @@ import { client, db } from '@/db/client'
 import env from './env'
 
 export const auth = betterAuth({
-  plugins: [bearer(), openAPI({ disableDefaultReference: true })],
+  plugins: [
+    bearer({ requireSignature: true }),
+    openAPI({ disableDefaultReference: true })
+  ],
   database: mongodbAdapter(db, {
     client,
     transaction: false // route around a bug in mongodbAdapter
