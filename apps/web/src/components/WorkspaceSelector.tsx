@@ -114,13 +114,13 @@ export default function WorkspaceSelector() {
                     name="name"
                     placeholder="Workspace name (e.g. Workspace Z)"
                     required
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 placeholder:text-gray-400 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                   />
                   <input
                     type="text"
                     name="description"
                     placeholder="Description (optional)"
-                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 placeholder:text-gray-400 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                   />
                   <div className="flex justify-end gap-2 pt-1">
                     <button
