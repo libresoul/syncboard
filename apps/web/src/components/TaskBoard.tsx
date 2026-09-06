@@ -2,6 +2,7 @@ import type { Task } from '@repo/shared'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { apiClient } from '@/lib/api-client'
+import { Route } from '../routes/dashboard/tasks'
 import Column from './Column'
 import DeleteConfirmationModal from './DeleteConfirmationModal'
 import TaskCard from './TaskCard'
@@ -14,12 +15,20 @@ export const columnLabels: Record<Task['status'], string> = {
 }
 
 export default function TaskBoard() {
+  const { boardId, workspaceId } = Route.useSearch()
   const taskQuery = useQuery({
-    queryKey: ['tasks'],
+    queryKey: ['tasks', boardId, workspaceId],
     queryFn: async () => {
-      const { tasks } = await apiClient.get<{ tasks: Task[] }>('/tasks')
+      const params = new URLSearchParams()
+      if (boardId) params.set('boardId', boardId)
+      if (workspaceId) params.set('workspaceId', workspaceId)
+      const query = params.toString()
+      const { tasks } = await apiClient.get<{ tasks: Task[] }>(
+        `/tasks${query ? `?${query}` : ''}`
+      )
       return tasks
-    }
+    },
+    enabled: Boolean(boardId && workspaceId)
   })
 
   const [isTaskModalOpen, setTaskModalOpen] = useState(false)
@@ -84,6 +93,8 @@ export default function TaskBoard() {
         mode={taskModalMode}
         task={task}
         assignees={assignees}
+        boardId={boardId}
+        workspaceId={workspaceId}
         onClose={closeTaskModal}
       />
       {taskToDelete && (

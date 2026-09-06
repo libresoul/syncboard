@@ -14,6 +14,8 @@ type TaskModalProps = {
   mode: 'create' | 'edit'
   task?: Task | null
   assignees: string[]
+  boardId?: string
+  workspaceId?: string
   onClose: () => void
 }
 
@@ -22,6 +24,8 @@ export default function TaskModal({
   mode,
   task,
   assignees,
+  boardId,
+  workspaceId,
   onClose
 }: TaskModalProps) {
   const queryClient = useQueryClient()
@@ -64,6 +68,8 @@ export default function TaskModal({
     const taskPayload: { task: Task } = {
       task: {
         id: task.id,
+        boardId: task.boardId,
+        workspaceId: task.workspaceId,
         description: task.description,
         status: task.status,
         title: task.title,
@@ -98,6 +104,8 @@ export default function TaskModal({
 
     const newTaskData: Task = {
       id: task && mode === 'edit' ? task.id : crypto.randomUUID().toString(),
+      boardId: task?.boardId ?? boardId ?? '',
+      workspaceId: task?.workspaceId ?? workspaceId ?? '',
       title: title.toString(),
       description: description.toString(),
       assignee: assignee.toString(),

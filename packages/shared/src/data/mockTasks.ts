@@ -3,6 +3,8 @@ import type { Task } from '@repo/shared'
 export const mockTasks: Task[] = [
   {
     id: 't1',
+    boardId: 'B1',
+    workspaceId: 'ws-1',
     assignee: 'AL',
     comments: 2,
     description: 'Create updated logo variations',
@@ -12,6 +14,8 @@ export const mockTasks: Task[] = [
   },
   {
     id: 't2',
+    boardId: 'B1',
+    workspaceId: 'ws-1',
     assignee: 'JD',
     comments: 1,
     description: 'Add getting started section',
@@ -21,6 +25,8 @@ export const mockTasks: Task[] = [
   },
   {
     id: 't3',
+    boardId: 'B1',
+    workspaceId: 'ws-1',
     assignee: 'MG',
     comments: 0,
     description: 'Check new auth changes',
@@ -30,6 +36,8 @@ export const mockTasks: Task[] = [
   },
   {
     id: 'p1',
+    boardId: 'B2',
+    workspaceId: 'ws-1',
     assignee: 'AK',
     attachments: 3,
     description: 'Summarize findings and insights',
@@ -39,6 +47,8 @@ export const mockTasks: Task[] = [
   },
   {
     id: 'p2',
+    boardId: 'B2',
+    workspaceId: 'ws-1',
     assignee: 'JD',
     comments: 4,
     description: 'Investigate authentication flow',
@@ -48,6 +58,8 @@ export const mockTasks: Task[] = [
   },
   {
     id: 'd1',
+    boardId: 'B3',
+    workspaceId: 'ws-2',
     description: '',
     status: 'done',
     tag: 'Management',
@@ -55,6 +67,8 @@ export const mockTasks: Task[] = [
   },
   {
     id: 'd2',
+    boardId: 'B3',
+    workspaceId: 'ws-2',
     description: '',
     status: 'todo',
     tag: 'DevOps',

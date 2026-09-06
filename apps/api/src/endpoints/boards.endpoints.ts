@@ -5,8 +5,11 @@ import { authedEndpointsFactory } from '@/factories/authed.factory'
 
 export const listBoardsEndpoint = authedEndpointsFactory.build({
   method: 'get',
+  input: z.object({ workspaceId: z.string().optional() }),
   output: z.object({ boards: z.array(boardSchema) }),
-  handler: async () => ({ boards: await boardsController.list() })
+  handler: async ({ input: { workspaceId } }) => ({
+    boards: await boardsController.list(workspaceId)
+  })
 })
 
 export const createBoardEndpoint = authedEndpointsFactory.build({

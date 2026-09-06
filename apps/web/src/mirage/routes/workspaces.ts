@@ -6,6 +6,6 @@ export default function workspacesRoutes(server: Server) {
 
   server.post('/workspaces', (schema: AppSchema, request) => {
     const attrs = JSON.parse(request.requestBody)
-    return schema.create('workspace', attrs)
+    return schema.create('workspace', attrs.workspace)
   })
 }

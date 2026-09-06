@@ -5,18 +5,26 @@ import { useState } from 'react'
 import { LuPlus, LuX } from 'react-icons/lu'
 import Boardcard from '../components/Boardcard'
 import { apiClient } from '../lib/api-client'
+import { Route } from '../routes/dashboard/boards'
 import { Route as tasksRoute } from '../routes/dashboard/tasks'
 
 export default function Boards() {
   const queryClient = useQueryClient()
   const [isCreateOpen, setIsCreateOpen] = useState(false)
+  const { workspaceId } = Route.useSearch()
 
   const boardsQuery = useQuery({
-    queryKey: ['boards'],
+    queryKey: ['boards', workspaceId],
     queryFn: async () => {
-      const { boards } = await apiClient.get<{ boards: Board[] }>('/boards')
+      const query = workspaceId
+        ? `?workspaceId=${encodeURIComponent(workspaceId)}`
+        : ''
+      const { boards } = await apiClient.get<{ boards: Board[] }>(
+        `/boards${query}`
+      )
       return boards
-    }
+    },
+    enabled: Boolean(workspaceId)
   })
 
   const createBoardMutation = useMutation({
@@ -39,6 +47,7 @@ export default function Boards() {
 
     createBoardMutation.mutate({
       id: crypto.randomUUID(),
+      workspaceId: workspaceId ?? '',
       name,
       description: formData.get('description')?.toString().trim() || undefined,
       lists: 0,
@@ -54,7 +63,11 @@ export default function Boards() {
 
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             {boardsQuery.data?.map((b) => (
-              <Link to={tasksRoute.to} key={b.id}>
+              <Link
+                to={tasksRoute.to}
+                search={{ boardId: b.id, workspaceId: b.workspaceId }}
+                key={b.id}
+              >
                 <Boardcard key={b.name} board={b} />
               </Link>
             ))}

@@ -77,6 +77,7 @@ export default function WorkspaceSelector() {
                 query.data?.map((ws) => (
                   <Link
                     to={boardRoute.to}
+                    search={{ workspaceId: ws.id }}
                     key={ws.id}
                     className="w-full text-left p-5 border-2 border-gray-700 hover:border-blue-600 rounded-xl shadow-sm hover:shadow-md transition-all group bg-linear-to-r from-amber-50/40 to-white hover:bg-blue-50/30 flex items-center justify-between"
                   >
