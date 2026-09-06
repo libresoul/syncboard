@@ -9,6 +9,7 @@ A simple yet fully functional web based kanban board
 | React 19 | Core frontend library |
 | Express.js | API framework |
 | MongoDB | Database solution |
+| BetterAuth | Authentication framework |
 | Turborepo | Monorepo build ochestration / build caching |
 | Mirage.js | Mock API server |
 | Biome | Linter / Formatter |
@@ -25,6 +26,7 @@ syncboard/
 │   │   ├── src
 │   │   │   ├── config
 │   │   │   │   ├── api.config.ts                   -- Express zod API config
+│   │   │   │   ├── auth.config.ts                   -- BetterAuth configuration
 │   │   │   │   ├── db.config.ts                    -- database configuration
 │   │   │   │   └── env.ts                          -- environment variable validation
 │   │   │   ├── controllers/                        -- request handlers
@@ -33,8 +35,9 @@ syncboard/
 │   │   │   │   └── utils.ts                        -- database utilities
 │   │   │   ├── docs/index.ts                       -- API documentation config
 │   │   │   ├── endpoints/                          -- API endpoint definitions
+│   │   │   ├── factories/authed.factory.ts         -- authenticated endpoint factory
 │   │   │   ├── index.ts                            -- application entrypoint
-│   │   │   ├── middleware/                         -- API middleware
+│   │   │   ├── middleware/                         -- authentication, CORS, and request logging
 │   │   │   ├── models/                             -- database models
 │   │   │   ├── routing.ts                          -- Express zod API route map
 │   │   │   └── utils/logger.ts                     -- Pino logger
@@ -43,6 +46,7 @@ syncboard/
 │   └── web                                         -- React frontend
 │       ├── src
 │       │   ├── components/                         -- UI components
+│       │   │   └── auth/                           -- authentication components
 │       │   ├── context/                            -- React context
 │       │   ├── data/                               -- mock data
 │       │   ├── hooks/                              -- custom React hooks
@@ -50,17 +54,23 @@ syncboard/
 │       │   ├── lib/                                -- utility functions
 │       │   ├── mirage/                             -- mock API setup
 │       │   ├── routes/                             -- client routes
+│       │   │   ├── _auth/                          -- authentication routes
+│       │   │   └── dashboard/                      -- dashboard routes
 │       │   ├── main.tsx                            -- root renderer
-│       │   └── types/                              -- shared types
-│       ├── tsconfig.json                           -- typescript configuration
+│       │   ├── index.css                           -- global styles
+│       │   └── routeTree.gen.ts                    -- generated route tree
+│       ├── .env.example                            -- frontend environment template
+│       ├── tsconfig.app.json                       -- application TypeScript configuration
+│       ├── tsconfig.json                           -- TypeScript configuration
+│       ├── tsconfig.node.json                      -- tooling TypeScript configuration
 │       └── vite.config.ts                          -- bundler configuration
 ├── packages
 │   └── shared
 │       └── src
-│           ├── data                                -- Shared mock data
-│           ├── index.ts
-│           ├── schemas                             -- Shared schemas
-│           └── types                               -- Shared types
+│           ├── data/                               -- shared mock data
+│           ├── schemas/                            -- shared schemas
+│           ├── types/                              -- shared types
+│           └── index.ts                            -- shared package entrypoint
 ├── biome.json                                      -- linter / formatter configuration
 ├── lefthook.yml                                    -- git hooks configuration
 └── turbo.json                                      -- turbo tasks configuration
@@ -80,19 +90,28 @@ cd syncboard
 npm install
 ```
 
-The Express.js API requires multiple environment variables to function.
-Create a `.env` environment file from the provided template:
+The API and frontend require environment variables to function. Create environment files from the provided templates:
 
 ```bash
 cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env
 ```
 
-Update `apps/api/.env` with the values for your MongoDB instance:
+Update `apps/api/.env` with your values:
 
 ```dotenv
-DATABASE_URL=<your connection string>
+DATABASE_URL=mongodb://127.0.0.1:27017/?directConnection=true
 DB_NAME=syncboard
 PORT=3000
+BETTER_AUTH_SECRET=a_secret_with_at_least_32_characters
+BETTER_AUTH_URL=http://localhost:3000
+CORS_ORIGINS=http://localhost:5173,https://yourdomain.com
+```
+
+Update `apps/api/.env` with your values:
+
+```dotenv
+VITE_API_URL=http://localhost:3000
 ```
 
 ## Development
