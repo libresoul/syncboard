@@ -7,6 +7,7 @@ import { auth } from './config/auth.config'
 import env from './config/env'
 import { connectToDatabase } from './db/client'
 import { documentation } from './docs'
+import { corsMiddleware } from './middleware/cors.middleware'
 import { requestLogger } from './middleware/requestLogger'
 import { routing } from './routing'
 import logger from './utils/logger'
@@ -14,7 +15,7 @@ import logger from './utils/logger'
 const app = express()
 const PORT = env.PORT
 
-app.all('/api/auth/{*splat}', toNodeHandler(auth))
+app.all('/api/auth/{*splat}', corsMiddleware, toNodeHandler(auth))
 
 app.use(express.json())
 app.use(requestLogger)
