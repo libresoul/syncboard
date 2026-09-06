@@ -1,10 +1,10 @@
 import { betterAuth } from 'better-auth'
 import { mongodbAdapter } from 'better-auth/adapters/mongodb'
-import { openAPI } from 'better-auth/plugins'
+import { bearer, openAPI } from 'better-auth/plugins'
 import { client, db } from '@/db/client'
 
 export const auth = betterAuth({
-  plugins: [openAPI({ disableDefaultReference: true })],
+  plugins: [bearer(), openAPI({ disableDefaultReference: true })],
   database: mongodbAdapter(db, {
     client,
     transaction: false // route around a bug in mongodbAdapter
