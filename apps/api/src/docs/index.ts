@@ -6,5 +6,6 @@ export const documentation = new Documentation({
   routing,
   config: commonApiConfig,
   info: { title: 'Syncboard API', version: '0.0.0' },
+  hasHeadMethod: false,
   server: `http://localhost:${process.env.PORT || 3000}`
 })
