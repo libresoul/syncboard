@@ -1,15 +1,15 @@
 import { taskSchema, updateTaskSchema } from '@repo/shared'
-import { defaultEndpointsFactory } from 'express-zod-api'
 import z from 'zod'
 import { tasksController } from '@/controllers/tasks.controller'
+import { authedEndpointsFactory } from '@/factories/authed.factory'
 
-export const listTasksEndpoint = defaultEndpointsFactory.build({
+export const listTasksEndpoint = authedEndpointsFactory.build({
   method: 'get',
   output: z.object({ tasks: z.array(taskSchema) }),
   handler: async () => ({ tasks: await tasksController.list() })
 })
 
-export const createTaskEndpoint = defaultEndpointsFactory.build({
+export const createTaskEndpoint = authedEndpointsFactory.build({
   method: 'post',
   input: z.object({ task: taskSchema }),
   output: z.object({ task: taskSchema }),
@@ -18,7 +18,7 @@ export const createTaskEndpoint = defaultEndpointsFactory.build({
   })
 })
 
-export const updateTaskEndpoint = defaultEndpointsFactory.build({
+export const updateTaskEndpoint = authedEndpointsFactory.build({
   method: 'put',
   input: z.object({ taskId: z.string(), task: updateTaskSchema }),
   output: z.object({ task: taskSchema }),
@@ -27,7 +27,7 @@ export const updateTaskEndpoint = defaultEndpointsFactory.build({
   })
 })
 
-export const deleteTaskEndpoint = defaultEndpointsFactory.build({
+export const deleteTaskEndpoint = authedEndpointsFactory.build({
   method: 'delete',
   input: z.object({ taskId: z.string() }),
   output: z.object({ success: z.boolean() }),
