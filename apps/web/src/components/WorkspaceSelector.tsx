@@ -2,8 +2,8 @@ import type { Workspace } from '@repo/shared'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
-import { apiClient } from '../lib/api-client'
-import { Route as boardRoute } from '../routes/dashboard/boards'
+import { apiClient } from '@/lib/api-client'
+import { Route as boardRoute } from '@/routes/dashboard/boards'
 
 export default function WorkspaceSelector() {
   const queryClient = useQueryClient()

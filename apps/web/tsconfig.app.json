@@ -5,6 +5,9 @@
     "module": "esnext",
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "incremental": true,
     "tsBuildInfoFile": ".turbo/tsconfig.app.tsbuildinfo",
     "skipLibCheck": true,

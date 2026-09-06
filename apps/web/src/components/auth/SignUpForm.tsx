@@ -2,8 +2,8 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import { useActionState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { FiGithub, FiKey, FiMail, FiUser } from 'react-icons/fi'
-import { authClient } from '../../lib/auth-client'
-import { Route as loginRoute } from '../../routes/_auth/login'
+import { authClient } from '@/lib/auth-client'
+import { Route as loginRoute } from '@/routes/_auth/login'
 import SocialAuthButton from './SocialAuthButton'
 
 type SignUpState = {
