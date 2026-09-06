@@ -22,7 +22,8 @@ const queryClient = new QueryClient()
 const router = createRouter({
   routeTree,
   context: {
-    queryClient
+    queryClient,
+    session: null
   }
 })
 

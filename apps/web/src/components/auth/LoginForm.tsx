@@ -5,6 +5,7 @@ import { FiGithub, FiKey, FiMail } from 'react-icons/fi'
 import { signIn } from '@/lib/auth-client'
 import { Route as loginRoute } from '@/routes/_auth/login'
 import { Route as signUpRoute } from '@/routes/_auth/signup'
+import { Route as workspacesRoute } from '@/routes/workspaces'
 import SocialAuthButton from './SocialAuthButton'
 
 type LoginState = {
@@ -15,6 +16,7 @@ const initialState: LoginState = {}
 
 export default function LoginForm() {
   const navigate = useNavigate({ from: loginRoute.to })
+  const { redirect: redirectTo } = loginRoute.useSearch()
   const [state, formAction, isPending] = useActionState(
     loginAction,
     initialState
@@ -51,7 +53,7 @@ export default function LoginForm() {
             return
           }
           localStorage.setItem('bearer_token', authToken)
-          navigate({ to: '/workspaces', replace: true })
+          navigate({ to: redirectTo || workspacesRoute.to, replace: true })
         },
         onError: (ctx) => {
           authError = { error: ctx.error.message }
