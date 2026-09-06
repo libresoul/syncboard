@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
 interface ApiRequestOptions {
   headers?: Record<string, string>
@@ -18,7 +18,7 @@ async function request<T>(
     headers['Content-Type'] = 'application/json'
   }
 
-  const fullUrl = url.startsWith('http') ? url : API_BASE_URL + url
+  const fullUrl = url.startsWith('http') ? url : API_BASE_URL + '/api' + url
   const res = await fetch(fullUrl, {
     method,
     headers,
