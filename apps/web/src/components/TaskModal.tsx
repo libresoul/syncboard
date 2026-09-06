@@ -2,6 +2,7 @@ import type { Task } from '@repo/shared'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { LuX } from 'react-icons/lu'
 import { apiClient } from '@/lib/api-client'
+import { useSession } from '@/lib/auth-client'
 
 const STATUS_OPTIONS: Array<{ value: Task['status']; label: string }> = [
   { value: 'todo', label: 'To Do' },
@@ -13,7 +14,8 @@ type TaskModalProps = {
   isOpen: boolean
   mode: 'create' | 'edit'
   task?: Task | null
-  assignees: string[]
+  boardId?: string
+  workspaceId?: string
   onClose: () => void
 }
 
@@ -21,14 +23,14 @@ export default function TaskModal({
   isOpen,
   mode,
   task,
-  assignees,
+  boardId,
+  workspaceId,
   onClose
 }: TaskModalProps) {
   const queryClient = useQueryClient()
+  const { data: session } = useSession()
   const isEditMode = mode === 'edit'
-  const assigneeOptions = Array.from(
-    new Set([...assignees, ...(task?.assignee ? [task.assignee] : [])])
-  )
+  const currentUser = session?.user.name || session?.user.email || ''
 
   // biome-ignore lint/suspicious/noExplicitAny: Needed for asserting task status type
   function isValidStatus(value: any): value is Task['status'] {
@@ -64,6 +66,8 @@ export default function TaskModal({
     const taskPayload: { task: Task } = {
       task: {
         id: task.id,
+        boardId: task.boardId,
+        workspaceId: task.workspaceId,
         description: task.description,
         status: task.status,
         title: task.title,
@@ -84,10 +88,9 @@ export default function TaskModal({
   const prepareTask = (formData: FormData) => {
     const title = formData.get('title')
     const description = formData.get('description')
-    const assignee = formData.get('assignee')
     const status = formData.get('status')
 
-    if (!title || !description || !assignee) {
+    if (!title || !description || !currentUser) {
       return false
     }
 
@@ -98,9 +101,11 @@ export default function TaskModal({
 
     const newTaskData: Task = {
       id: task && mode === 'edit' ? task.id : crypto.randomUUID().toString(),
+      boardId: task?.boardId ?? boardId ?? '',
+      workspaceId: task?.workspaceId ?? workspaceId ?? '',
       title: title.toString(),
       description: description.toString(),
-      assignee: assignee.toString(),
+      assignee: currentUser,
       status: statusStr
     }
 
@@ -198,19 +203,14 @@ export default function TaskModal({
               >
                 Assigned to
               </label>
-              <select
+              <input
                 id="assignee"
                 name="assignee"
-                defaultValue={task?.assignee ?? assigneeOptions[0] ?? ''}
-                className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-slate-500 dark:focus:ring-slate-600/30"
-              >
-                <option value="">Select assignee</option>
-                {assigneeOptions.map((name) => (
-                  <option key={name} value={name}>
-                    {name}
-                  </option>
-                ))}
-              </select>
+                value={currentUser}
+                readOnly
+                placeholder="Loading user..."
+                className="w-full rounded-lg border border-neutral-200 bg-neutral-100 px-3 py-2 text-sm text-neutral-900 focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-slate-500 dark:focus:ring-slate-600/30"
+              />
             </div>
             {!isEditMode && (
               <div>

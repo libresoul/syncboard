@@ -2,6 +2,8 @@ import * as z from 'zod/mini'
 
 export const taskSchema = z.object({
   id: z.string(),
+  boardId: z.string(),
+  workspaceId: z.string(),
   title: z.string(),
   status: z.enum(['todo', 'inprogress', 'done']),
   description: z.optional(z.string()),

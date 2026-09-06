@@ -1,6 +1,5 @@
+import type { Board } from '@repo/shared'
 import { LuEllipsis } from 'react-icons/lu'
-
-type Board = { name: string; description: string; lists: number; tasks: number }
 
 export default function Boardcard({ board }: { board: Board }) {
   return (
@@ -14,7 +13,11 @@ export default function Boardcard({ board }: { board: Board }) {
           <LuEllipsis className="size-4" />
         </button>
       </div>
-      <p className="mt-1 text-sm text-muted-foreground">{board.description}</p>
+      {board.description && (
+        <p className="mt-1 text-sm text-muted-foreground">
+          {board.description}
+        </p>
+      )}
       <p className="mt-auto pt-6 text-xs text-muted-foreground">
         {board.lists} lists · {board.tasks} tasks
       </p>

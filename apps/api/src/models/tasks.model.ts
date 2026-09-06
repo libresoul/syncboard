@@ -2,9 +2,13 @@ import type { Task, UpdateTaskInput } from '@repo/shared'
 import { getCollection } from '@/db/utils'
 
 export const tasksModel = {
-  findAll: async (): Promise<Task[]> => {
+  findAll: async (boardId?: string, workspaceId?: string): Promise<Task[]> => {
     const collection = await getCollection<Task>('tasks')
-    return collection.find().toArray()
+    const filter = {
+      ...(boardId ? { boardId } : {}),
+      ...(workspaceId ? { workspaceId } : {})
+    }
+    return collection.find(filter).toArray()
   },
   create: async (task: Task): Promise<Task> => {
     const collection = await getCollection<Task>('tasks')
@@ -22,9 +26,21 @@ export const tasksModel = {
       { id: taskId },
       {
         $set: {
-          ...task,
           title: task.title ?? existing.title,
-          status: task.status ?? existing.status
+          status: task.status ?? existing.status,
+          ...(task.boardId !== undefined && { boardId: task.boardId }),
+          ...(task.workspaceId !== undefined && {
+            workspaceId: task.workspaceId
+          }),
+          ...(task.description !== undefined && {
+            description: task.description
+          }),
+          ...(task.tag !== undefined && { tag: task.tag }),
+          ...(task.comments !== undefined && { comments: task.comments }),
+          ...(task.attachments !== undefined && {
+            attachments: task.attachments
+          }),
+          ...(task.assignee !== undefined && { assignee: task.assignee })
         }
       },
       { returnDocument: 'after' }

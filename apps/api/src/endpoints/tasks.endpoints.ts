@@ -5,8 +5,14 @@ import { authedEndpointsFactory } from '@/factories/authed.factory'
 
 export const listTasksEndpoint = authedEndpointsFactory.build({
   method: 'get',
+  input: z.object({
+    boardId: z.string().optional(),
+    workspaceId: z.string().optional()
+  }),
   output: z.object({ tasks: z.array(taskSchema) }),
-  handler: async () => ({ tasks: await tasksController.list() })
+  handler: async ({ input: { boardId, workspaceId } }) => ({
+    tasks: await tasksController.list(boardId, workspaceId)
+  })
 })
 
 export const createTaskEndpoint = authedEndpointsFactory.build({
