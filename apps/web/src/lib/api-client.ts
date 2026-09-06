@@ -4,6 +4,10 @@ interface ApiRequestOptions {
   headers?: Record<string, string>
 }
 
+function getAccessToken(): string | null {
+  return localStorage.getItem('bearer_token')
+}
+
 async function request<T>(
   method: string,
   url: string,
@@ -12,6 +16,11 @@ async function request<T>(
 ) {
   const headers: Record<string, string> = {
     ...options.headers
+  }
+
+  const accessToken = getAccessToken()
+  if (accessToken) {
+    headers['Authorization'] = `Bearer ${getAccessToken()}`
   }
 
   if (body !== undefined) {
