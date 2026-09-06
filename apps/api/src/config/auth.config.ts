@@ -6,7 +6,8 @@ import { client, db } from '@/db/client'
 export const auth = betterAuth({
   plugins: [openAPI({ disableDefaultReference: true })],
   database: mongodbAdapter(db, {
-    client
+    client,
+    transaction: false // route around a bug in mongodbAdapter
   }),
   emailAndPassword: { enabled: true, autoSignIn: false },
   advanced: { database: { joins: true } }
