@@ -1,7 +1,8 @@
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useActionState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
-import { FiGithub, FiMail } from 'react-icons/fi'
+import { FiGithub, FiKey, FiMail } from 'react-icons/fi'
+import { signIn } from '../../lib/auth-client'
 import { Route as loginRoute } from '../../routes/_auth/login'
 import { Route as signUpRoute } from '../../routes/_auth/signup'
 import SocialAuthButton from './SocialAuthButton'
@@ -24,14 +25,40 @@ export default function LoginForm() {
     formData: FormData
   ): Promise<LoginState> {
     const email = formData.get('email')
+    const password = formData.get('password')
+    const rememberMe = formData.get('remember-me')?.toString()
 
     if (typeof email !== 'string' || !email.trim()) {
       return { error: 'Enter your email to continue.' }
     }
 
-    console.log('[login] would submit:', { email })
-    navigate({ to: '/workspaces', replace: true })
-    return {}
+    if (typeof password !== 'string' || !password.trim()) {
+      return { error: 'Enter your password to continue.' }
+    }
+
+    let authError: LoginState = {}
+    await signIn.email(
+      {
+        email,
+        password,
+        rememberMe: rememberMe === 'on'
+      },
+      {
+        onSuccess: (ctx) => {
+          const authToken = ctx.response.headers.get('set-auth-token')
+          if (!authToken) {
+            authError = { error: 'Failed to retieve token' }
+            return
+          }
+          localStorage.setItem('bearer_token', authToken)
+          navigate({ to: '/workspaces', replace: true })
+        },
+        onError: (ctx) => {
+          authError = { error: ctx.error.message }
+        }
+      }
+    )
+    return authError ?? {}
   }
 
   return (
@@ -98,9 +125,33 @@ export default function LoginForm() {
           </div>
         </div>
 
+        <div>
+          <label
+            htmlFor="login-password"
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200"
+          >
+            Password
+          </label>
+          <div className="relative">
+            <FiKey
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+              size={16}
+            />
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              autoComplete="on"
+              placeholder="********"
+              className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-cyan-500/20"
+            />
+          </div>
+        </div>
+
         <div className="flex items-center justify-between text-sm">
           <label className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
             <input
+              name="remember-me"
               type="checkbox"
               className="h-4 w-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 dark:border-slate-600 dark:bg-slate-900"
             />
