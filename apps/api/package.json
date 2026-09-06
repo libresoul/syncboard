@@ -11,8 +11,11 @@
   },
   "keywords": [],
   "dependencies": {
+    "@better-auth/mongo-adapter": "^1.7.2",
     "@repo/shared": "*",
     "@scalar/express-api-reference": "^0.10.17",
+    "better-auth": "^1.7.2",
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "express-zod-api": "^29.4.0",
     "http-errors": "^2.0.1",
@@ -21,6 +24,7 @@
     "zod": "^4.5.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^24.13.3",
     "pino-pretty": "^13.1.3",

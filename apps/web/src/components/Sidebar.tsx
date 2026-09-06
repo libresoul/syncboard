@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Profile from './Profile'
 
 const primaryItems = ['Overview', 'Projects', 'Boards', 'Calendar']
 
@@ -10,7 +11,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`flex w-full flex-col overflow-hidden
+      className={`relative flex w-full flex-col overflow-visible
       border-b lg:border-b-0 lg:border-r
       border-gray-200 dark:border-slate-800/70
       bg-white dark:bg-slate-950/95
@@ -116,6 +117,8 @@ export default function Sidebar() {
           </div>
         </div>
       )}
+
+      <Profile isExpanded={isExpanded} />
     </aside>
   )
 }

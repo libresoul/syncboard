@@ -1,7 +1,11 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
 interface ApiRequestOptions {
   headers?: Record<string, string>
+}
+
+function getAccessToken(): string | null {
+  return localStorage.getItem('bearer_token')
 }
 
 async function request<T>(
@@ -14,11 +18,16 @@ async function request<T>(
     ...options.headers
   }
 
+  const accessToken = getAccessToken()
+  if (accessToken) {
+    headers.Authorization = `Bearer ${getAccessToken()}`
+  }
+
   if (body !== undefined) {
     headers['Content-Type'] = 'application/json'
   }
 
-  const fullUrl = url.startsWith('http') ? url : API_BASE_URL + url
+  const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}/api${url}`
   const res = await fetch(fullUrl, {
     method,
     headers,

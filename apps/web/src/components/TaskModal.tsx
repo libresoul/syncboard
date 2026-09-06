@@ -1,7 +1,7 @@
 import type { Task } from '@repo/shared'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { LuX } from 'react-icons/lu'
-import { apiClient } from '../lib/api-client'
+import { apiClient } from '@/lib/api-client'
 
 const STATUS_OPTIONS: Array<{ value: Task['status']; label: string }> = [
   { value: 'todo', label: 'To Do' },
