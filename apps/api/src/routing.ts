@@ -1,4 +1,8 @@
 import type { Routing } from 'express-zod-api'
+import {
+  createBoardEndpoint,
+  listBoardsEndpoint
+} from './endpoints/boards.endpoints'
 import { helloEndpoint } from './endpoints/hello'
 import {
   createTaskEndpoint,
@@ -21,6 +25,10 @@ export const routing: Routing = {
         put: updateTaskEndpoint,
         delete: deleteTaskEndpoint
       }
+    },
+    boards: {
+      get: listBoardsEndpoint,
+      post: createBoardEndpoint
     },
     workspaces: {
       get: listWorkspacesEndpoint,

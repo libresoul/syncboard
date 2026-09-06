@@ -1,5 +1,7 @@
 import {
+  type Board,
   initialWorkspaces,
+  mockBoards,
   mockTasks,
   type Task,
   type Workspace
@@ -7,6 +9,7 @@ import {
 import { createServer, Model } from 'miragejs'
 import type { AnyFactories, ModelDefinition, Registry } from 'miragejs/-types'
 import type Schema from 'miragejs/orm/schema'
+import boardsRoutes from './routes/boards'
 import tasksRoutes from './routes/tasks'
 import workspacesRoutes from './routes/workspaces'
 
@@ -16,8 +19,10 @@ type Environment = {
 
 const taskModel: ModelDefinition<Task> = Model.extend({})
 const workspaceModel: ModelDefinition<Workspace> = Model.extend({})
+const boardModel: ModelDefinition<Board> = Model.extend({})
 
 const models = {
+  board: boardModel,
   task: taskModel,
   workspace: workspaceModel
 }
@@ -36,11 +41,15 @@ export function makeServer({ environment = 'development' }: Environment) {
 
       tasksRoutes.call(this, this)
       workspacesRoutes.call(this, this)
+      boardsRoutes.call(this, this)
     },
 
     seeds(server) {
       mockTasks.forEach((data) => {
         server.create('task', data)
+      })
+      mockBoards.forEach((board) => {
+        server.create('board', board)
       })
       initialWorkspaces.forEach((workspace) => {
         server.create('workspace', workspace)
