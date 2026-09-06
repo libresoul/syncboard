@@ -38,6 +38,8 @@ export default function SignUpForm() {
       return { error: 'Enter your password to continue.' }
     }
 
+    let authError: SignUpState = {}
+
     await authClient.signUp.email(
       {
         email,
@@ -49,11 +51,11 @@ export default function SignUpForm() {
           navigate({ to: '/login' })
         },
         onError: (ctx) => {
-          alert(ctx.error.message)
+          authError = { error: ctx.error.message }
         }
       }
     )
-    return {}
+    return authError ?? {}
   }
 
   return (
