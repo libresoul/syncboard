@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import WorkspaceSelector from '../components/WorkspaceSelector'
+import WorkspaceSelector from '@/components/WorkspaceSelector'
 
-export const Route = createFileRoute('/workspaces')({
+export const Route = createFileRoute('/dashboard/workspaces')({
   component: RouteComponent
 })
 
