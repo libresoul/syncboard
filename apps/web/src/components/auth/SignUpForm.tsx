@@ -1,7 +1,8 @@
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useActionState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
-import { FiGithub, FiMail, FiUser } from 'react-icons/fi'
+import { FiGithub, FiKey, FiMail, FiUser } from 'react-icons/fi'
+import { authClient } from '../../lib/auth-client'
 import { Route as loginRoute } from '../../routes/_auth/login'
 import SocialAuthButton from './SocialAuthButton'
 
@@ -23,6 +24,7 @@ export default function SignUpForm() {
   ): Promise<SignUpState> {
     const name = formData.get('name')
     const email = formData.get('email')
+    const password = formData.get('password')
 
     if (typeof name !== 'string' || !name.trim()) {
       return { error: 'Enter your name to continue.' }
@@ -32,8 +34,25 @@ export default function SignUpForm() {
       return { error: 'Enter your email to continue.' }
     }
 
-    console.log('[signup] would submit:', { name, email })
-    navigate({ to: '/login' })
+    if (typeof password !== 'string' || !password.trim()) {
+      return { error: 'Enter your password to continue.' }
+    }
+
+    await authClient.signUp.email(
+      {
+        email,
+        password,
+        name
+      },
+      {
+        onSuccess: () => {
+          navigate({ to: '/login' })
+        },
+        onError: (ctx) => {
+          alert(ctx.error.message)
+        }
+      }
+    )
     return {}
   }
 
@@ -119,6 +138,29 @@ export default function SignUpForm() {
               type="email"
               autoComplete="email"
               placeholder="user@domain.com"
+              className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-cyan-500/20"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="signup-password"
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200"
+          >
+            Password
+          </label>
+          <div className="relative">
+            <FiKey
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+              size={16}
+            />
+            <input
+              id="signup-password"
+              name="password"
+              type="password"
+              autoComplete="on"
+              placeholder="********"
               className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-cyan-500/20"
             />
           </div>
