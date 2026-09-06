@@ -38,12 +38,6 @@ export default function TaskBoard() {
   const [task, setTask] = useState<Task | null>(null)
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null)
 
-  const assignees = Array.from(
-    new Set(
-      taskQuery.data?.flatMap((currentTask) => currentTask.assignee ?? [])
-    )
-  )
-
   const openCreateTask = () => {
     setTaskModalMode('create')
     setTask(null)
@@ -92,7 +86,6 @@ export default function TaskBoard() {
         isOpen={isTaskModalOpen}
         mode={taskModalMode}
         task={task}
-        assignees={assignees}
         boardId={boardId}
         workspaceId={workspaceId}
         onClose={closeTaskModal}

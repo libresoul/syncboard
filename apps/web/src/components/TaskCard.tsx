@@ -8,6 +8,13 @@ type TaskCardProps = {
   onDelete: () => void
 }
 
+function getInitials(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean)
+  if (parts.length === 0) return ''
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
+  return `${parts[0][0]}${parts.at(-1)?.[0] ?? ''}`.toUpperCase()
+}
+
 export default function TaskCard({
   task,
   accentColor = 'bg-cyan-600',
@@ -100,7 +107,7 @@ export default function TaskCard({
         <div className="flex items-center gap-2">
           {task.assignee ? (
             <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-[10px] font-semibold text-gray-700 dark:bg-slate-700 dark:text-slate-200">
-              {task.assignee}
+              {getInitials(task.assignee)}
             </div>
           ) : null}
         </div>
