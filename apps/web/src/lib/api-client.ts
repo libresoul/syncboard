@@ -18,7 +18,7 @@ async function request<T>(
     headers['Content-Type'] = 'application/json'
   }
 
-  const fullUrl = url.startsWith('http') ? url : API_BASE_URL + '/api' + url
+  const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}/api${url}`
   const res = await fetch(fullUrl, {
     method,
     headers,

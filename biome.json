@@ -19,6 +19,9 @@
     "enabled": true,
     "rules": {
       "preset": "recommended",
+      "style": {
+        "useTemplate": "error"
+      },
       "a11y": {
         "useButtonType": "off"
       },
