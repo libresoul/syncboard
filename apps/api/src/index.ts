@@ -25,7 +25,10 @@ const { notFoundHandler } = attachRouting(config, routing)
 app.use(
   '/docs',
   apiReference({
-    content: documentation.getSpecAsJson()
+    sources: [
+      { title: 'Base', content: documentation.getSpecAsJson() },
+      { url: '/api/auth/open-api/generate-schema', title: 'Auth' }
+    ]
   })
 )
 
