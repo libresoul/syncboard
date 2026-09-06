@@ -20,7 +20,7 @@ async function request<T>(
 
   const accessToken = getAccessToken()
   if (accessToken) {
-    headers['Authorization'] = `Bearer ${getAccessToken()}`
+    headers.Authorization = `Bearer ${getAccessToken()}`
   }
 
   if (body !== undefined) {
