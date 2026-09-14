@@ -7,11 +7,11 @@ export function DashboardLayout() {
   const { isDark, toggleTheme } = useTheme()
 
   return (
-    <main className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col lg:flex-row">
+    <main className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 lg:h-screen lg:overflow-hidden">
+      <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col lg:h-full lg:flex-row">
         <Sidebar />
 
-        <section className="flex min-w-0 flex-1 flex-col border-t border-slate-200 dark:border-slate-800/70 lg:border-l lg:border-t-0">
+        <section className="flex min-h-0 min-w-0 flex-1 flex-col border-t border-slate-200 dark:border-slate-800/70 lg:border-l lg:border-t-0">
           <header className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800/70 px-6 py-5">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
@@ -38,7 +38,7 @@ export function DashboardLayout() {
             </button>
           </header>
 
-          <div className="flex-1 overflow-hidden">
+          <div className="min-h-0 flex-1 overflow-hidden">
             <Outlet />
           </div>
         </section>
