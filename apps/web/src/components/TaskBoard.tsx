@@ -57,7 +57,7 @@ export default function TaskBoard() {
 
   return (
     <>
-      <div className="flex gap-4 h-full overflow-x-auto pb-4 items-start p-4">
+      <div className="flex h-full min-h-0 items-stretch gap-4 overflow-x-auto p-4 pb-4">
         {Object.entries(columnLabels).map(([value, label]) => (
           <Column
             key={value}
